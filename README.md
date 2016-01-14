@@ -1,0 +1,1 @@
+# goods-receipt-scanner-app
