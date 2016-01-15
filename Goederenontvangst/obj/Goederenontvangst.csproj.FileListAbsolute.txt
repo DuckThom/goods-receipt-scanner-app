@@ -11,3 +11,15 @@ C:\Users\Luna Moonfang\Documents\Visual Studio 2005\Projects\MagazijnScanner\Mag
 C:\Users\Luna Moonfang\Documents\Visual Studio 2005\Projects\MagazijnScanner\MagazijnScanner\bin\Debug\datalogic.keyboardremapping2005.dll
 C:\Users\Luna Moonfang\Documents\Visual Studio 2005\Projects\MagazijnScanner\MagazijnScanner\obj\Debug\Goederenontvangst.ScanForm.resources
 C:\Users\Luna Moonfang\Documents\Visual Studio 2005\Projects\MagazijnScanner\MagazijnScanner\obj\Debug\Goederenontvangst.MainMenuForm.resources
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\bin\Debug\Goederenontvangst.exe
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\bin\Debug\Goederenontvangst.pdb
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\bin\Debug\datalogic.pdc.dll
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\obj\Debug\Goederenontvangst.DialogForm.resources
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\obj\Debug\Goederenontvangst.MainMenuForm.resources
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\obj\Debug\Goederenontvangst.ScanForm.resources
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\obj\Debug\Goederenontvangst.Properties.Resources.resources
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\obj\Debug\Goederenontvangst.csproj.GenerateResource.Cache
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\obj\Debug\Goederenontvangst.exe
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\obj\Debug\Goederenontvangst.pdb
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\obj\Debug\Goederenontvangst.SendForm.resources

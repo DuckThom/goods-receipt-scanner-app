@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Goederenontvangst
 {
-    class ScannedProduct
+    public class ScannedProduct
     {
         String product;
         String count;

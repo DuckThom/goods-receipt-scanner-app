@@ -10,19 +10,33 @@ namespace Goederenontvangst
 {
     public partial class ScanForm : Form
     {
-        List<ScannedProduct> productList = new List<ScannedProduct>();
+        List<ScannedProduct> productList;
 
-        public ScanForm()
+        public ScanForm(List<ScannedProduct> productList)
         {
             InitializeComponent();
+
+            this.productList = productList;
 
             laser1.GoodReadEvent += new datalogic.datacapture.ScannerEngine.LaserEventHandler(laser1_GoodReadEvent);
             laser1.ScannerEnabled = true;
 
+            this.KeyDown += new KeyEventHandler(ScanMenuForm_KeyDown);
             countTextBox.KeyPress += new KeyPressEventHandler(submitProductWithEnterKey);
-            productTextBox.KeyPress += new KeyPressEventHandler(returnToMainMenu);
+            //productTextBox.KeyPress += new KeyPressEventHandler(returnToMainMenu);
 
             productTextBox.Focus();
+        }
+
+        private void ScanMenuForm_KeyDown(object sender, KeyEventArgs key)
+        {
+            String pressedKey = key.KeyCode.ToString();
+
+            if (pressedKey == "Escape")
+            {
+                this.Close();
+                key.Handled = true;
+            }
         }
 
         private void laser1_GoodReadEvent(datalogic.datacapture.ScannerEngine sender)
@@ -46,15 +60,7 @@ namespace Goederenontvangst
 
         private void nextButton_Click(object sender, EventArgs e)
         {
-            if (productTextBox.Text != String.Empty && countTextBox.Text != String.Empty)
-            {
-                productList.Add(new ScannedProduct(productTextBox.Text, countTextBox.Text));
-
-                countTextBox.Enabled = false;
-                countTextBox.Focus();
-
-                countTextBox.Text = productTextBox.Text = String.Empty;
-            } 
+            saveProductToList();
         }
 
         private void createDialog(String title, String message)
@@ -85,14 +91,6 @@ namespace Goederenontvangst
             if (e.KeyChar == (char)13)
             {
                 saveProductToList();
-            }
-        }
-
-        private void returnToMainMenu(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)13)
-            {
-                this.Close();
             }
         }
     }

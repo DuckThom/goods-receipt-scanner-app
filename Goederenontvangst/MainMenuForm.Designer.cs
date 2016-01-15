@@ -6,7 +6,6 @@ namespace Goederenontvangst
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.MainMenu mainMenu1;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -29,66 +28,61 @@ namespace Goederenontvangst
         /// </summary>
         private void InitializeComponent()
         {
-            this.mainMenu1 = new System.Windows.Forms.MainMenu();
-            this.menuItem1 = new System.Windows.Forms.MenuItem();
-            this.menuItem2 = new System.Windows.Forms.MenuItem();
-            this.exitMenuItem = new System.Windows.Forms.MenuItem();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMenuForm));
+            this.scanButton = new System.Windows.Forms.Button();
+            this.editButton = new System.Windows.Forms.Button();
+            this.sendButton = new System.Windows.Forms.Button();
+            this.exitButton = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.SuspendLayout();
             // 
-            // mainMenu1
+            // scanButton
             // 
-            this.mainMenu1.MenuItems.Add(this.menuItem1);
+            this.scanButton.BackColor = System.Drawing.Color.White;
+            this.scanButton.Location = new System.Drawing.Point(3, 55);
+            this.scanButton.Name = "scanButton";
+            this.scanButton.Size = new System.Drawing.Size(232, 37);
+            this.scanButton.TabIndex = 0;
+            this.scanButton.Text = "1: Scannen";
+            this.scanButton.Click += new System.EventHandler(this.scanButton_Click);
             // 
-            // menuItem1
+            // editButton
             // 
-            this.menuItem1.MenuItems.Add(this.menuItem2);
-            this.menuItem1.MenuItems.Add(this.exitMenuItem);
-            this.menuItem1.Text = "Edit";
+            this.editButton.BackColor = System.Drawing.Color.White;
+            this.editButton.Location = new System.Drawing.Point(3, 98);
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(232, 37);
+            this.editButton.TabIndex = 1;
+            this.editButton.Text = "2: Aanpassen";
             // 
-            // menuItem2
+            // sendButton
             // 
-            this.menuItem2.Text = "Edit PC IP";
+            this.sendButton.BackColor = System.Drawing.Color.White;
+            this.sendButton.Location = new System.Drawing.Point(3, 141);
+            this.sendButton.Name = "sendButton";
+            this.sendButton.Size = new System.Drawing.Size(232, 37);
+            this.sendButton.TabIndex = 2;
+            this.sendButton.Text = "3: Verzenden";
+            this.sendButton.Click += new System.EventHandler(this.sendButton_Click);
             // 
-            // exitMenuItem
+            // exitButton
             // 
-            this.exitMenuItem.Text = "Exit";
-            this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
+            this.exitButton.BackColor = System.Drawing.Color.White;
+            this.exitButton.Location = new System.Drawing.Point(3, 184);
+            this.exitButton.Name = "exitButton";
+            this.exitButton.Size = new System.Drawing.Size(232, 37);
+            this.exitButton.TabIndex = 3;
+            this.exitButton.Text = "Escape: Afsluiten";
+            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
             // 
-            // label1
+            // pictureBox1
             // 
-            this.label1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
-            this.label1.Location = new System.Drawing.Point(3, 42);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(232, 20);
-            this.label1.Text = "F1: Scannen";
-            // 
-            // label2
-            // 
-            this.label2.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
-            this.label2.Location = new System.Drawing.Point(3, 62);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(232, 20);
-            this.label2.Text = "F2: Bewerken";
-            // 
-            // label3
-            // 
-            this.label3.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
-            this.label3.Location = new System.Drawing.Point(3, 97);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(232, 20);
-            this.label3.Text = "Enter: Verzenden";
-            // 
-            // label4
-            // 
-            this.label4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
-            this.label4.Location = new System.Drawing.Point(3, 117);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(232, 20);
-            this.label4.Text = "Escape: Sluiten";
+            this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(39)))), ((int)(((byte)(45)))));
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(238, 295);
             // 
             // MainMenuForm
             // 
@@ -96,13 +90,13 @@ namespace Goederenontvangst
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(238, 295);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.exitButton);
+            this.Controls.Add(this.sendButton);
+            this.Controls.Add(this.editButton);
+            this.Controls.Add(this.scanButton);
+            this.Controls.Add(this.pictureBox1);
             this.KeyPreview = true;
             this.MaximizeBox = false;
-            this.Menu = this.mainMenu1;
             this.Name = "MainMenuForm";
             this.Text = "Goederenontvangst : Menu";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
@@ -112,12 +106,10 @@ namespace Goederenontvangst
 
         #endregion
 
-        private System.Windows.Forms.MenuItem menuItem1;
-        private System.Windows.Forms.MenuItem menuItem2;
-        private System.Windows.Forms.MenuItem exitMenuItem;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button scanButton;
+        private System.Windows.Forms.Button editButton;
+        private System.Windows.Forms.Button sendButton;
+        private System.Windows.Forms.Button exitButton;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

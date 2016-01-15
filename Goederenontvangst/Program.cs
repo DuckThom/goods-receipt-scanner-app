@@ -12,6 +12,8 @@ namespace Goederenontvangst
         [MTAThread]
         static void Main()
         {
+            //Ini ini = new Ini("C:\\Program Files\\goederenontvangst\\Settings.ini");
+
             Application.Run(new MainMenuForm());
         }
     }
