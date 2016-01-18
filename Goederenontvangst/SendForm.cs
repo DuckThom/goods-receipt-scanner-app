@@ -145,7 +145,7 @@ namespace Goederenontvangst
             }
 
             setStatus("Overdracht mislukt... " + message);
-            Thread.Sleep(4000);
+            Thread.Sleep(5000);
 
             closeForm();
 
@@ -198,6 +198,8 @@ namespace Goederenontvangst
             {
                 this.Close();
             }
+
+            this.t.Abort();
         }
     }
 }
