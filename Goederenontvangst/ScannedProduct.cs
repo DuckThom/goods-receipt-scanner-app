@@ -9,10 +9,9 @@ namespace Goederenontvangst
         String product;
         String count;
 
-        public ScannedProduct(String product, String count)
+        public ScannedProduct(String product)
         {
             this.product = product;
-            this.count = count;
         }
 
         public ScannedProduct setProduct(String product)

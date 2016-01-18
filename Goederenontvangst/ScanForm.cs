@@ -11,6 +11,8 @@ namespace Goederenontvangst
     public partial class ScanForm : Form
     {
         List<ScannedProduct> productList;
+        String scannerInput;
+        bool replace = false;
 
         public ScanForm(List<ScannedProduct> productList)
         {
@@ -23,7 +25,6 @@ namespace Goederenontvangst
 
             this.KeyDown += new KeyEventHandler(ScanMenuForm_KeyDown);
             countTextBox.KeyPress += new KeyPressEventHandler(submitProductWithEnterKey);
-            //productTextBox.KeyPress += new KeyPressEventHandler(returnToMainMenu);
 
             productTextBox.Focus();
         }
@@ -41,7 +42,15 @@ namespace Goederenontvangst
 
         private void laser1_GoodReadEvent(datalogic.datacapture.ScannerEngine sender)
         {
-            productTextBox.Text = laser1.BarcodeDataAsText;
+            this.scannerInput = laser1.BarcodeDataAsText;
+
+            productTextBox.Text = scannerInput;
+
+            if (this.productList.Exists(findScannedProduct))
+            {
+                countTextBox.Text = this.productList.Find(findScannedProduct).getCount();
+                this.replace = true;
+            }
 
             if (productTextBox.Text != String.Empty)
             {
@@ -75,10 +84,20 @@ namespace Goederenontvangst
         {
             if (productTextBox.Text != String.Empty && countTextBox.Text != String.Empty)
             {
-                productList.Add(new ScannedProduct(productTextBox.Text, countTextBox.Text));
+                if (this.replace)
+                {
+                    this.productList.Find(findScannedProduct).setCount(countTextBox.Text);
+                    this.replace = false;
+                }
+                else
+                {
+                    ScannedProduct sp = new ScannedProduct(productTextBox.Text);
+                    sp.setCount(countTextBox.Text);
+
+                    this.productList.Add(sp);
+                }  
 
                 countTextBox.Enabled = false;
-                countTextBox.Focus();
 
                 countTextBox.Text = productTextBox.Text = String.Empty;
 
@@ -92,6 +111,11 @@ namespace Goederenontvangst
             {
                 saveProductToList();
             }
+        }
+
+        private bool findScannedProduct(ScannedProduct obj)
+        {
+            return obj.getProduct() == this.scannerInput;
         }
     }
 }

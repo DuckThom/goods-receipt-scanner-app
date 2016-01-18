@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace Goederenontvangst
 {
@@ -15,26 +16,28 @@ namespace Goederenontvangst
         NetworkStream stream;
         List<ScannedProduct> productList;
         String serverIp;
+        Thread t;
 
-        public SendForm(List<ScannedProduct> productList, String serverIp)
+        public SendForm(List<ScannedProduct> productList)
         {
             InitializeComponent();
 
             this.productList = productList;
-            this.serverIp = serverIp;
 
-            this.Load += new EventHandler(SendForm_Load);
+            this.t = new Thread(startThread);
+            this.t.Start();
         }
 
-        public void SendForm_Load(object sender, EventArgs e)
+        private void startThread()
         {
-            this.Visible = true;
-
-            Connect(this.serverIp, this.productList);
+            Connect("192.168.1.29", this.productList);
         }
 
         public bool Connect(String server, List<ScannedProduct> productList)
         {
+            this.productList = productList;
+            this.serverIp = server;
+
             try
             {
                 setStatus("Verbinden...");
@@ -44,9 +47,10 @@ namespace Goederenontvangst
                 // connected to the same address as specified by the server, port
                 // combination.
                 Int32 port = 23207;
-                this.client = new TcpClient(server, port);
+                this.client = new TcpClient(this.serverIp, port);
                 this.stream = client.GetStream();
 
+                setStatus("Verbonden");
                 Byte[] data = System.Text.Encoding.ASCII.GetBytes("@HELLO@");
 
                 stream.Write(data, 0, data.Length);
@@ -57,27 +61,28 @@ namespace Goederenontvangst
                     return returnInFail("Verbonden met verkeerde server", true);
                 }
 
+                setStatus("Producten verzenden");
                 foreach (ScannedProduct product in productList)
                 {
                     data = System.Text.Encoding.ASCII.GetBytes("@PROD@");
                     stream.Write(data, 0, data.Length);
 
-                    System.Threading.Thread.Sleep(50);
+                    Thread.Sleep(50);
 
                     data = System.Text.Encoding.ASCII.GetBytes(product.getProduct());
                     stream.Write(data, 0, data.Length);
 
-                    System.Threading.Thread.Sleep(50);
+                    Thread.Sleep(50);
 
                     data = System.Text.Encoding.ASCII.GetBytes("@COUNT@");
                     stream.Write(data, 0, data.Length);
 
-                    System.Threading.Thread.Sleep(50);
+                    Thread.Sleep(50);
 
-                    data = System.Text.Encoding.ASCII.GetBytes(product.getProduct());
+                    data = System.Text.Encoding.ASCII.GetBytes(product.getCount());
                     stream.Write(data, 0, data.Length);
 
-                    System.Threading.Thread.Sleep(50);
+                    Thread.Sleep(50);
 
                     data = System.Text.Encoding.ASCII.GetBytes("@ENDPROD@");
                     stream.Write(data, 0, data.Length);
@@ -88,10 +93,11 @@ namespace Goederenontvangst
                     }
                 }
 
+                setStatus("Voltooien");
                 data = System.Text.Encoding.ASCII.GetBytes("@FINISH@");
                 stream.Write(data, 0, data.Length);
 
-                System.Threading.Thread.Sleep(50);
+                Thread.Sleep(50);
 
                 if (streamRead() != "@GOT" + productList.Count + "@")
                 {
@@ -101,7 +107,7 @@ namespace Goederenontvangst
                 data = System.Text.Encoding.ASCII.GetBytes("@BYE@");
                 stream.Write(data, 0, data.Length);
 
-                System.Threading.Thread.Sleep(50);
+                Thread.Sleep(50);
 
                 return returnInSuccess();
             }
@@ -139,8 +145,9 @@ namespace Goederenontvangst
             }
 
             setStatus("Overdracht mislukt... " + message);
-            System.Threading.Thread.Sleep(1000);
-            this.Close();
+            Thread.Sleep(4000);
+
+            closeForm();
 
             return false;
         }
@@ -158,15 +165,39 @@ namespace Goederenontvangst
             this.productList = default(List<ScannedProduct>);
 
             setStatus("Overdracht gelukt!");
-            System.Threading.Thread.Sleep(1000);
-            this.Close();
+            Thread.Sleep(2000);
+
+            closeForm();
 
             return true;
         }
 
-        private void setStatus(String message)
+        public delegate void UpdateTextCallback(string text);
+
+        private void setStatus(string text)
         {
-            this.statusLabel.Text = message;
+            if (statusLabel.InvokeRequired)
+            {
+                statusLabel.Invoke(new UpdateTextCallback(this.setStatus), new object[]{ text });
+            }
+            else
+            {
+                statusLabel.Text = text;
+            }
+        }
+
+        public delegate void CloseDelegate();
+
+        private void closeForm()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new CloseDelegate(this.Close));
+            }
+            else
+            {
+                this.Close();
+            }
         }
     }
 }

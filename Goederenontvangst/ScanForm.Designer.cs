@@ -96,14 +96,14 @@ namespace Goederenontvangst
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(238, 295);
+            this.pictureBox1.Size = new System.Drawing.Size(638, 455);
             // 
             // ScanForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(238, 295);
+            this.ClientSize = new System.Drawing.Size(638, 455);
             this.Controls.Add(this.nextButton);
             this.Controls.Add(this.countTextBox);
             this.Controls.Add(this.countLabel);

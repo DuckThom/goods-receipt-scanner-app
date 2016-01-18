@@ -51,7 +51,7 @@ namespace Goederenontvangst
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(240, 320);
+            this.pictureBox1.Size = new System.Drawing.Size(640, 480);
             // 
             // statusLabel
             // 
@@ -59,7 +59,7 @@ namespace Goederenontvangst
             this.statusLabel.ForeColor = System.Drawing.Color.White;
             this.statusLabel.Location = new System.Drawing.Point(3, 52);
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(234, 20);
+            this.statusLabel.Size = new System.Drawing.Size(234, 105);
             this.statusLabel.Text = "Status";
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -68,7 +68,7 @@ namespace Goederenontvangst
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(240, 320);
+            this.ClientSize = new System.Drawing.Size(640, 480);
             this.ControlBox = false;
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.headerLabel);
