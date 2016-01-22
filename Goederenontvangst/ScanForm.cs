@@ -93,10 +93,10 @@ namespace Goederenontvangst
                     this.productList.Find(findScannedProduct).setCount(countTextBox.Text);
                     this.replace = false;
                 }
-                else if (Convert.ToDouble(countTextBox.Text) <= 0.0)
-                {
-                    this.productList.Remove(this.productList.Find(findScannedProduct));
-                }
+                //else if (Convert.ToDouble(countTextBox.Text) <= 0.0)
+                //{
+                //   this.productList.Remove(this.productList.Find(findScannedProduct));
+                //}
                 else
                 {
                     ScannedProduct sp = new ScannedProduct(productTextBox.Text);

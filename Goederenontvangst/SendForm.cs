@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Net.Sockets;
 using System.Threading;
+using System.IO;
 
 namespace Goederenontvangst
 {
@@ -30,7 +31,7 @@ namespace Goederenontvangst
 
         private void startThread()
         {
-            Connect("192.168.1.29", this.productList);
+            Connect("192.168.1.30", this.productList);
         }
 
         public bool Connect(String server, List<ScannedProduct> productList)
@@ -51,7 +52,7 @@ namespace Goederenontvangst
                 this.stream = client.GetStream();
 
                 setStatus("Verbonden");
-                Byte[] data = System.Text.Encoding.ASCII.GetBytes("@HELLO@");
+                Byte[] data = Encoding.ASCII.GetBytes("@HELLO@");
 
                 stream.Write(data, 0, data.Length);
 
@@ -64,50 +65,55 @@ namespace Goederenontvangst
                 setStatus("Producten verzenden");
                 foreach (ScannedProduct product in productList)
                 {
-                    data = System.Text.Encoding.ASCII.GetBytes("@PROD@");
-                    stream.Write(data, 0, data.Length);
-
-                    Thread.Sleep(50);
-
-                    data = System.Text.Encoding.ASCII.GetBytes(product.getProduct());
-                    stream.Write(data, 0, data.Length);
-
-                    Thread.Sleep(50);
-
-                    data = System.Text.Encoding.ASCII.GetBytes("@COUNT@");
-                    stream.Write(data, 0, data.Length);
-
-                    Thread.Sleep(50);
-
-                    data = System.Text.Encoding.ASCII.GetBytes(product.getCount());
-                    stream.Write(data, 0, data.Length);
-
-                    Thread.Sleep(50);
-
-                    data = System.Text.Encoding.ASCII.GetBytes("@ENDPROD@");
-                    stream.Write(data, 0, data.Length);
-
-                    if (streamRead() != "@RECV@")
+                    if (product.getCount() != "0")
                     {
-                        return returnInFail("De server heeft een product niet goed ontvangen");
+                        data = Encoding.ASCII.GetBytes("@PROD@");
+                        stream.Write(data, 0, data.Length);
+
+                        Thread.Sleep(200);
+
+                        Byte[] prodData = new Byte[16];
+                        prodData = Encoding.ASCII.GetBytes(product.getProduct().PadLeft(16, (char) 69));
+                        stream.Write(prodData, 0, prodData.Length);
+
+                        Thread.Sleep(200);
+
+                        data = Encoding.ASCII.GetBytes("@COUNT@");
+                        stream.Write(data, 0, data.Length);
+
+                        Thread.Sleep(200);
+
+                        Byte[] countData = new Byte[16];
+                        countData = Encoding.ASCII.GetBytes(product.getCount().PadLeft(16, (char)69));
+                        stream.Write(countData, 0, countData.Length);
+
+                        Thread.Sleep(200);
+
+                        data = Encoding.ASCII.GetBytes("@ENDPROD@");
+                        stream.Write(data, 0, data.Length);
+
+                        if (streamRead() != "@RECV@")
+                        {
+                            return returnInFail("De server heeft een product niet goed ontvangen");
+                        }
                     }
                 }
 
                 setStatus("Voltooien");
-                data = System.Text.Encoding.ASCII.GetBytes("@FINISH@");
+                data = Encoding.ASCII.GetBytes("@FINISH@");
                 stream.Write(data, 0, data.Length);
 
                 Thread.Sleep(50);
 
-                if (streamRead() != "@GOT" + productList.Count + "@")
-                {
-                    return returnInFail("De server heeft een product niet goed ontvangen", true);
-                }
+                //if (streamRead() != "@GOT" + productList.Count + "@")
+                //{
+                //    return returnInFail("De server heeft een product niet goed ontvangen", true);
+                //}
 
-                data = System.Text.Encoding.ASCII.GetBytes("@BYE@");
-                stream.Write(data, 0, data.Length);
+                //data = System.Text.Encoding.ASCII.GetBytes("@BYE@");
+                //stream.Write(data, 0, data.Length);
 
-                Thread.Sleep(50);
+                //Thread.Sleep(50);
 
                 return returnInSuccess();
             }
@@ -116,6 +122,10 @@ namespace Goederenontvangst
                 return returnInFail(e.Message);
             }
             catch (SocketException e)
+            {
+                return returnInFail(e.Message);
+            }
+            catch (IOException e)
             {
                 return returnInFail(e.Message);
             }

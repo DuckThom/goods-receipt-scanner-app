@@ -31,7 +31,7 @@ namespace Goederenontvangst_server
             this.ipLabel = new System.Windows.Forms.Label();
             this.portLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.statusLabel = new System.Windows.Forms.Label();
             this.retryButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -63,22 +63,22 @@ namespace Goederenontvangst_server
             this.label1.TabIndex = 2;
             this.label1.Text = "Status:";
             // 
-            // label2
+            // statusLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.label2.Location = new System.Drawing.Point(80, 128);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(149, 25);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Server starten...";
+            this.statusLabel.AutoSize = true;
+            this.statusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.statusLabel.Location = new System.Drawing.Point(80, 128);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(149, 25);
+            this.statusLabel.TabIndex = 3;
+            this.statusLabel.Text = "Server starten...";
             // 
             // retryButton
             // 
             this.retryButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.retryButton.Location = new System.Drawing.Point(308, 12);
             this.retryButton.Name = "retryButton";
-            this.retryButton.Size = new System.Drawing.Size(164, 138);
+            this.retryButton.Size = new System.Drawing.Size(164, 32);
             this.retryButton.TabIndex = 4;
             this.retryButton.Text = "Opnieuw inlezen";
             this.retryButton.UseVisualStyleBackColor = true;
@@ -89,7 +89,7 @@ namespace Goederenontvangst_server
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 162);
             this.Controls.Add(this.retryButton);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.portLabel);
             this.Controls.Add(this.ipLabel);
@@ -107,7 +107,7 @@ namespace Goederenontvangst_server
         private System.Windows.Forms.Label ipLabel;
         private System.Windows.Forms.Label portLabel;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label statusLabel;
         private System.Windows.Forms.Button retryButton;
     }
 }
