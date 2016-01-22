@@ -30,7 +30,6 @@ namespace Goederenontvangst
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScanForm));
             this.productLabel = new System.Windows.Forms.Label();
-            this.laser1 = new datalogic.datacapture.Laser();
             this.productTextBox = new System.Windows.Forms.TextBox();
             this.countLabel = new System.Windows.Forms.Label();
             this.countTextBox = new System.Windows.Forms.TextBox();
@@ -46,13 +45,6 @@ namespace Goederenontvangst
             this.productLabel.Name = "productLabel";
             this.productLabel.Size = new System.Drawing.Size(60, 20);
             this.productLabel.Text = "Product:";
-            // 
-            // laser1
-            // 
-            this.laser1.ApplyDesignTimeConfiguration = false;
-            this.laser1.Configuration = resources.GetString("laser1.Configuration");
-            this.laser1.ScannerEnabled = false;
-            this.laser1.ScanTimeout = 5000;
             // 
             // productTextBox
             // 
@@ -123,7 +115,6 @@ namespace Goederenontvangst
         #endregion
 
         private System.Windows.Forms.Label productLabel;
-        private datalogic.datacapture.Laser laser1;
         private System.Windows.Forms.TextBox productTextBox;
         private System.Windows.Forms.Label countLabel;
         private System.Windows.Forms.TextBox countTextBox;

@@ -20,6 +20,7 @@ namespace Goederenontvangst
 
             // Bind the KeyDown event handler
             this.KeyDown += new KeyEventHandler(MainMenuForm_KeyDown);
+            this.laser1.ScannerEnabled = false;
         }
 
         /**
@@ -34,10 +35,6 @@ namespace Goederenontvangst
                 showScanForm();
             }
             else if (pressedKey == "D2")
-            { // Edit
-                
-            }
-            else if (pressedKey == "D3")
             { // Send
                 showSendForm();
             } 
@@ -76,7 +73,7 @@ namespace Goederenontvangst
          */
         private void showScanForm()
         {
-            ScanForm scanform = new ScanForm(this.productList);
+            ScanForm scanform = new ScanForm(this.productList, this.laser1);
             scanform.Show();
         }
 

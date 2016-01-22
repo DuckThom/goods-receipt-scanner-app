@@ -30,10 +30,10 @@ namespace Goederenontvangst
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMenuForm));
             this.scanButton = new System.Windows.Forms.Button();
-            this.editButton = new System.Windows.Forms.Button();
             this.sendButton = new System.Windows.Forms.Button();
             this.exitButton = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.laser1 = new datalogic.datacapture.Laser();
             this.SuspendLayout();
             // 
             // scanButton
@@ -46,29 +46,20 @@ namespace Goederenontvangst
             this.scanButton.Text = "1: Scannen";
             this.scanButton.Click += new System.EventHandler(this.scanButton_Click);
             // 
-            // editButton
-            // 
-            this.editButton.BackColor = System.Drawing.Color.White;
-            this.editButton.Location = new System.Drawing.Point(3, 98);
-            this.editButton.Name = "editButton";
-            this.editButton.Size = new System.Drawing.Size(232, 37);
-            this.editButton.TabIndex = 1;
-            this.editButton.Text = "2: Aanpassen";
-            // 
             // sendButton
             // 
             this.sendButton.BackColor = System.Drawing.Color.White;
-            this.sendButton.Location = new System.Drawing.Point(3, 141);
+            this.sendButton.Location = new System.Drawing.Point(3, 98);
             this.sendButton.Name = "sendButton";
             this.sendButton.Size = new System.Drawing.Size(232, 37);
             this.sendButton.TabIndex = 2;
-            this.sendButton.Text = "3: Verzenden";
+            this.sendButton.Text = "2: Verzenden";
             this.sendButton.Click += new System.EventHandler(this.sendButton_Click);
             // 
             // exitButton
             // 
             this.exitButton.BackColor = System.Drawing.Color.White;
-            this.exitButton.Location = new System.Drawing.Point(3, 184);
+            this.exitButton.Location = new System.Drawing.Point(3, 141);
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(232, 37);
             this.exitButton.TabIndex = 3;
@@ -92,7 +83,6 @@ namespace Goederenontvangst
             this.ClientSize = new System.Drawing.Size(638, 455);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.sendButton);
-            this.Controls.Add(this.editButton);
             this.Controls.Add(this.scanButton);
             this.Controls.Add(this.pictureBox1);
             this.KeyPreview = true;
@@ -107,9 +97,9 @@ namespace Goederenontvangst
         #endregion
 
         private System.Windows.Forms.Button scanButton;
-        private System.Windows.Forms.Button editButton;
         private System.Windows.Forms.Button sendButton;
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private datalogic.datacapture.Laser laser1;
     }
 }

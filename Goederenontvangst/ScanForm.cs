@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using datalogic.datacapture;
 
 namespace Goederenontvangst
 {
@@ -12,16 +13,18 @@ namespace Goederenontvangst
     {
         List<ScannedProduct> productList;
         String scannerInput;
+        Laser laser;
         bool replace = false;
 
-        public ScanForm(List<ScannedProduct> productList)
+        public ScanForm(List<ScannedProduct> productList, Laser laser)
         {
             InitializeComponent();
 
             this.productList = productList;
+            this.laser = laser;
 
-            laser1.GoodReadEvent += new datalogic.datacapture.ScannerEngine.LaserEventHandler(laser1_GoodReadEvent);
-            laser1.ScannerEnabled = true;
+            this.laser.GoodReadEvent += new ScannerEngine.LaserEventHandler(laser_GoodReadEvent);
+            this.laser.ScannerEnabled = true;
 
             this.KeyDown += new KeyEventHandler(ScanMenuForm_KeyDown);
             countTextBox.KeyPress += new KeyPressEventHandler(submitProductWithEnterKey);
@@ -35,14 +38,15 @@ namespace Goederenontvangst
 
             if (pressedKey == "Escape")
             {
+                this.laser.ScannerEnabled = false;
                 this.Close();
                 key.Handled = true;
             }
         }
 
-        private void laser1_GoodReadEvent(datalogic.datacapture.ScannerEngine sender)
+        private void laser_GoodReadEvent(ScannerEngine sender)
         {
-            this.scannerInput = laser1.BarcodeDataAsText;
+            this.scannerInput = laser.BarcodeDataAsText;
 
             productTextBox.Text = scannerInput;
 
@@ -88,6 +92,10 @@ namespace Goederenontvangst
                 {
                     this.productList.Find(findScannedProduct).setCount(countTextBox.Text);
                     this.replace = false;
+                }
+                else if (Convert.ToDouble(countTextBox.Text) <= 0.0)
+                {
+                    this.productList.Remove(this.productList.Find(findScannedProduct));
                 }
                 else
                 {
