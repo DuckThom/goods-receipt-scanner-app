@@ -5,12 +5,12 @@
 - Datalogic Memor X3 Scanner (And libs)
 
 ## :: Todo 
-- Goods receipt PC server app
 - Warehouse scanner client app
 - Warehouse PC server app
 
 ## :: Doing
 - Goods receipt scanner client app
+- Goods receipt PC server app
 
 ## :: Done
 - Nothing yet
