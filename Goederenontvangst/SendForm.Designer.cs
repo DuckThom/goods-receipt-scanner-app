@@ -74,6 +74,7 @@ namespace Goederenontvangst
             this.Controls.Add(this.headerLabel);
             this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SendForm";
             this.Text = "Goederenontvangst : Verzenden";

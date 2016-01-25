@@ -105,6 +105,7 @@ namespace Goederenontvangst
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ScanForm";
             this.Text = "Goederenontvangst : Scannen";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

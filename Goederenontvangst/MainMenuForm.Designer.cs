@@ -81,12 +81,14 @@ namespace Goederenontvangst
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(638, 455);
+            this.ControlBox = false;
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.sendButton);
             this.Controls.Add(this.scanButton);
             this.Controls.Add(this.pictureBox1);
             this.KeyPreview = true;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MainMenuForm";
             this.Text = "Goederenontvangst : Menu";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

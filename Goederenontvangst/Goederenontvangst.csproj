@@ -18,6 +18,8 @@
     <FormFactorID>
     </FormFactorID>
     <StartupObject>Goederenontvangst.Program</StartupObject>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
