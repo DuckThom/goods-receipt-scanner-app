@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Drawing.Printing;
+using System.Data.OleDb;
 
 namespace Goederenontvangst_server
 {
@@ -22,6 +23,8 @@ namespace Goederenontvangst_server
 
         int _totalPrinted = 0;
         int _totalToPrint = 0;
+
+        string _dbPath = Properties.Settings.Default.DBPath;
 
         public delegate void UpdateTextCallback(string text);
 
@@ -49,7 +52,7 @@ namespace Goederenontvangst_server
             {
                 // Set the TcpListener on port WTG (23 20 7).
                 Int32 port = 23207;
-                IPAddress localAddr = IPAddress.Parse("192.168.1.30");
+                IPAddress localAddr = IPAddress.Parse("0.0.0.0");
 
                 // TcpListener server = new TcpListener(port);
                 server = new TcpListener(localAddr, port);
@@ -110,7 +113,7 @@ namespace Goederenontvangst_server
                             input = streamRead();
                         }
 
-                        PrintData();
+                        UpdateProductsFromDatabase();
 
                         Thread.Sleep(1000);
                     }
@@ -124,7 +127,7 @@ namespace Goederenontvangst_server
             finally
             {
                 // Stop listening for new clients.
-                server.Stop();
+                //server.Stop();
             }
         }
 
@@ -178,6 +181,49 @@ namespace Goederenontvangst_server
             {
                 statusLabel.Text = text;
             }
+        }
+
+        private void UpdateProductsFromDatabase()
+        {
+            foreach (Product product in this.productList)
+            {
+                if (product != null)
+                {
+                    // Create a new connection instance
+                    OleDbConnection dbConnection = new OleDbConnection();
+
+                    // Set the provider and data source
+                    dbConnection.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + _dbPath.Replace("/", "\\") + ";Persist Security Info=False;";
+
+                    dbConnection.Open();
+
+                    DataSet dataSet = new DataSet();
+
+                    OleDbDataAdapter myAdapter = new OleDbDataAdapter();
+
+                    OleDbCommand command = new OleDbCommand("SELECT * FROM tblArtikelen WHERE Omnivers_nummer = '" + product.getProduct() + "'", dbConnection);
+
+                    myAdapter.SelectCommand = command;
+                    myAdapter.Fill(dataSet, "tblArtikelen");
+
+                    if (dataSet != null)
+                    {
+                        DataRowCollection rowCollection = dataSet.Tables["tblArtikelen"].Rows;
+
+                        foreach (DataRow row in rowCollection)
+                        {
+                            // Update the location and name in the product object
+                            product.setLocation(row["Locatie"].ToString());
+                            product.setName(row["Omschrijving1"].ToString());
+                            product.setEAN(row["extArtikelcode"].ToString());
+                        }
+                    }
+
+                    dbConnection.Close();
+                }
+            }
+            // Print the data
+            PrintData();
         }
 
         private void PrintData()
@@ -245,9 +291,9 @@ namespace Goederenontvangst_server
                 {
                     string qty = product.getCount().PadRight(10);
                     string number = product.getProduct().PadRight(15);
-                    string name = "EAN".PadRight(45);//product.getName().PadRight(45);
-                    string location = "EAN".PadRight(10);//product.getLocation().PadRight(10);
-                    string ean = "EAN".PadRight(16);//product.getEAN().PadRight(16);
+                    string name = product.getName().PadRight(45);
+                    string location = product.getLocation().PadRight(10);
+                    string ean = product.getEAN().PadRight(16);
 
                     string productLine = qty + checkbox + number + name + location + ean;
 

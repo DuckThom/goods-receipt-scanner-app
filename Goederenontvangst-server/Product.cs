@@ -8,7 +8,10 @@ namespace Goederenontvangst_server
     {
         private string product;
         private string count;
-        private bool print = true; 
+        private bool print = true;
+        private string EAN;
+        private string location;
+        private string name;
 
         public Product setProduct(string product)
         {
@@ -31,6 +34,27 @@ namespace Goederenontvangst_server
             return this;
         }
 
+        public Product setEAN(string EAN)
+        {
+            this.EAN = EAN;
+
+            return this;
+        }
+
+        public Product setLocation(string location)
+        {
+            this.location = location;
+
+            return this;
+        }
+
+        public Product setName(string name)
+        {
+            this.name = name;
+
+            return this;
+        }
+
         public string getProduct()
         {
             return this.product;
@@ -44,6 +68,21 @@ namespace Goederenontvangst_server
         public bool getPrint()
         {
             return this.print;
+        }
+
+        public string getEAN()
+        {
+            return this.EAN;
+        }
+
+        public string getLocation()
+        {
+            return this.location;
+        }
+
+        public string getName()
+        {
+            return this.name;
         }
     }
 }
