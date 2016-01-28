@@ -31,6 +31,7 @@ namespace Goederenontvangst
             this.titleTextBox = new System.Windows.Forms.Label();
             this.messageTextBox = new System.Windows.Forms.Label();
             this.closeButton = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // titleTextBox
@@ -58,6 +59,14 @@ namespace Goederenontvangst
             this.closeButton.Text = "Sluiten";
             this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(57, 56);
+            this.textBox1.MaxLength = 15;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(129, 23);
+            this.textBox1.TabIndex = 5;
+            // 
             // DialogForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -66,6 +75,7 @@ namespace Goederenontvangst
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(238, 135);
             this.ControlBox = false;
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.closeButton);
             this.Controls.Add(this.messageTextBox);
             this.Controls.Add(this.titleTextBox);
@@ -84,5 +94,6 @@ namespace Goederenontvangst
         private System.Windows.Forms.Label titleTextBox;
         private System.Windows.Forms.Label messageTextBox;
         private System.Windows.Forms.Button closeButton;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Net.Sockets;
 using System.Threading;
 using System.IO;
+using Microsoft.Win32;
 
 namespace Goederenontvangst
 {
@@ -24,6 +25,7 @@ namespace Goederenontvangst
             InitializeComponent();
 
             this.productList = productList;
+            this.serverIp = Registry.GetValue("HKEY_CURRENT_USER\\Goederenontvangst", "ServerIP", "(unset)").ToString();
 
             this.t = new Thread(startThread);
             this.t.Start();
@@ -31,13 +33,12 @@ namespace Goederenontvangst
 
         private void startThread()
         {
-            Connect("192.168.1.30", this.productList);
+            Connect(this.serverIp, this.productList);
         }
 
         public bool Connect(String server, List<ScannedProduct> productList)
         {
             this.productList = productList;
-            this.serverIp = server;
 
             try
             {
@@ -48,7 +49,7 @@ namespace Goederenontvangst
                 // connected to the same address as specified by the server, port
                 // combination.
                 Int32 port = 23207;
-                this.client = new TcpClient(this.serverIp, port);
+                this.client = new TcpClient(server, port);
                 this.stream = client.GetStream();
 
                 setStatus("Verbonden");
@@ -104,16 +105,6 @@ namespace Goederenontvangst
                 stream.Write(data, 0, data.Length);
 
                 Thread.Sleep(50);
-
-                //if (streamRead() != "@GOT" + productList.Count + "@")
-                //{
-                //    return returnInFail("De server heeft een product niet goed ontvangen", true);
-                //}
-
-                //data = System.Text.Encoding.ASCII.GetBytes("@BYE@");
-                //stream.Write(data, 0, data.Length);
-
-                //Thread.Sleep(50);
 
                 return returnInSuccess();
             }
@@ -172,7 +163,9 @@ namespace Goederenontvangst
             this.stream.Close();
             this.client.Close();
 
-            this.productList = default(List<ScannedProduct>);
+            // Reset the product list
+            this.productList = null;
+            this.productList = new List<ScannedProduct>();
 
             setStatus("Overdracht gelukt!");
             Thread.Sleep(2000);

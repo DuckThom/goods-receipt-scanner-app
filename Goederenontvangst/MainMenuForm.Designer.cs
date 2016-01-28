@@ -34,6 +34,9 @@ namespace Goederenontvangst
             this.exitButton = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.laser1 = new datalogic.datacapture.Laser();
+            this.mainMenu1 = new System.Windows.Forms.MainMenu();
+            this.menuItem1 = new System.Windows.Forms.MenuItem();
+            this.menuItem2 = new System.Windows.Forms.MenuItem();
             this.SuspendLayout();
             // 
             // scanButton
@@ -75,6 +78,20 @@ namespace Goederenontvangst
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(638, 455);
             // 
+            // mainMenu1
+            // 
+            this.mainMenu1.MenuItems.Add(this.menuItem1);
+            // 
+            // menuItem1
+            // 
+            this.menuItem1.MenuItems.Add(this.menuItem2);
+            this.menuItem1.Text = "Edit";
+            // 
+            // menuItem2
+            // 
+            this.menuItem2.Text = "IP Adres";
+            this.menuItem2.Click += new System.EventHandler(this.menuItem2_Click);
+            // 
             // MainMenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -88,6 +105,7 @@ namespace Goederenontvangst
             this.Controls.Add(this.pictureBox1);
             this.KeyPreview = true;
             this.MaximizeBox = false;
+            this.Menu = this.mainMenu1;
             this.MinimizeBox = false;
             this.Name = "MainMenuForm";
             this.Text = "Goederenontvangst : Menu";
@@ -103,5 +121,8 @@ namespace Goederenontvangst
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.PictureBox pictureBox1;
         private datalogic.datacapture.Laser laser1;
+        private System.Windows.Forms.MainMenu mainMenu1;
+        private System.Windows.Forms.MenuItem menuItem1;
+        private System.Windows.Forms.MenuItem menuItem2;
     }
 }

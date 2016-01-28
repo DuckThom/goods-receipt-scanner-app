@@ -63,25 +63,9 @@ namespace Goederenontvangst
             }
         }
 
-        private void sendButton_Click(object sender, EventArgs e)
-        {
-            DialogForm dialog = new DialogForm("test", "message");
-            dialog.Location = new Point(0, 120);
-
-            dialog.Show();
-        }
-
         private void nextButton_Click(object sender, EventArgs e)
         {
             saveProductToList();
-        }
-
-        private void createDialog(String title, String message)
-        {
-            DialogForm dialog = new DialogForm(title, message);
-            dialog.Location = new Point(0, 80);
-
-            dialog.Show();
         }
 
         private void saveProductToList()

@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Resources;
+using Microsoft.Win32;
 
 namespace Goederenontvangst
 {
@@ -13,6 +15,7 @@ namespace Goederenontvangst
     {
         // The global list with the scanned products
         public List<ScannedProduct> productList = new List<ScannedProduct>();
+        private string serverIP;
 
         public MainMenuForm()
         {
@@ -21,6 +24,16 @@ namespace Goederenontvangst
             // Bind the KeyDown event handler
             this.KeyDown += new KeyEventHandler(MainMenuForm_KeyDown);
             this.laser1.ScannerEnabled = false;
+
+            try
+            {
+                this.serverIP = Registry.GetValue("HKEY_CURRENT_USER\\Goederenontvangst", "ServerIP", "(unset)").ToString();
+            }
+            catch (NullReferenceException e)
+            {
+                Registry.SetValue("HKEY_CURRENT_USER\\Goederenontvangst", "ServerIP", "(unset)");
+                this.serverIP = "(unset)";
+            }
         }
 
         /**
@@ -36,7 +49,13 @@ namespace Goederenontvangst
             }
             else if (pressedKey == "D2")
             { // Send
-                showSendForm();
+                if (this.serverIP != "(unset)")
+                {
+                    showSendForm();
+                } else 
+                {
+                    showDialogForm("Geen server IP", "Het IP adres voor de server is nog niet ingesteld");
+                }
             } 
             else if (pressedKey == "Escape")
             { // Close
@@ -78,6 +97,25 @@ namespace Goederenontvangst
         }
 
         /**
+         * Show the Scan form
+         */
+        private void showDialogForm(string title, string msg, bool hasInput)
+        {
+            DialogForm dialog = new DialogForm(title, msg, hasInput);
+            dialog.Show();
+        }
+
+        private void showDialogForm(string title, string msg)
+        {
+            showDialogForm(title, msg, false);
+        }
+
+        private void showDialogForm(string title, bool hasInput)
+        {
+            showDialogForm(title, "", true);
+        }
+
+        /**
          * Show the Send form
          */
         private void showSendForm()
@@ -110,6 +148,11 @@ namespace Goederenontvangst
         public static void MessageBeep()
         {
             MessageBeep(-1);  // Default beep code is -1
+        }
+
+        private void menuItem2_Click(object sender, EventArgs e)
+        {
+            showDialogForm("IP wijzigen", true);
         } 
     }
 }

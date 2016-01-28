@@ -25,6 +25,7 @@ namespace Goederenontvangst_server
         int _totalToPrint = 0;
 
         string _dbPath = Properties.Settings.Default.DBPath;
+        string ipAddress;
 
         public delegate void UpdateTextCallback(string text);
 
@@ -38,6 +39,7 @@ namespace Goederenontvangst_server
                 if (addr.AddressFamily == AddressFamily.InterNetwork)
                 {
                     this.ipLabel.Text = "IP: " + addr.ToString();
+                    this.ipAddress = addr.ToString();
                 }
             }
 
@@ -82,7 +84,7 @@ namespace Goederenontvangst_server
                     if (streamRead() == "@HELLO@")
                     {
                         // Send HELLO response
-                        data = Encoding.ASCII.GetBytes("@GOSERV@192.168.1.30@");
+                        data = Encoding.ASCII.GetBytes("@GOSERV@" + this.ipAddress + "@");
                         stream.Write(data, 0, data.Length);
 
                         string input = streamRead();
