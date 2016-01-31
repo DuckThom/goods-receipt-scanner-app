@@ -47,7 +47,7 @@ namespace Goederenontvangst_server
             t.IsBackground = true;
             t.Start();
 
-            this.Focus();
+            this.retryButton.Visible = false;
         }
 
         private void startServer()
@@ -126,6 +126,13 @@ namespace Goederenontvangst_server
             catch (SocketException e)
             {
                 setStatus("Er is een fout opgetreden...");
+
+                MessageBox.Show("SocketException", e.Message,
+                                 MessageBoxButtons.OK,
+                                 MessageBoxIcon.Error);
+
+                this.t.Abort();
+                this.Close();
             }
         }
 
@@ -221,10 +228,12 @@ namespace Goederenontvangst_server
                 }
             }
             // Print the data
-            PrintData();
+            printData();
+
+            this.retryButton.Visible = true;
         }
 
-        private void PrintData()
+        private void printData()
         {
             Console.WriteLine("Printing data");
             setStatus("Printing data");
@@ -310,6 +319,22 @@ namespace Goederenontvangst_server
             if (_totalPrinted < _totalToPrint)
             {
                 e.HasMorePages = true;
+            }
+        }
+
+        private void retryButton_Click(object sender, EventArgs e)
+        {
+            if (this.productList.Count > 0)
+            {
+                setStatus("Opnieuw uitvoeren");
+
+                printData();
+            }
+            else
+            {
+                MessageBox.Show("Geen producten", "De producten lijst is leeg.",
+                                 MessageBoxButtons.OK,
+                                 MessageBoxIcon.Warning);
             }
         }
     }

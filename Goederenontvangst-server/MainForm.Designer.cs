@@ -28,6 +28,7 @@ namespace Goederenontvangst_server
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.ipLabel = new System.Windows.Forms.Label();
             this.portLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -80,8 +81,9 @@ namespace Goederenontvangst_server
             this.retryButton.Name = "retryButton";
             this.retryButton.Size = new System.Drawing.Size(164, 32);
             this.retryButton.TabIndex = 4;
-            this.retryButton.Text = "Opnieuw inlezen";
+            this.retryButton.Text = "Opnieuw printen";
             this.retryButton.UseVisualStyleBackColor = true;
+            this.retryButton.Click += new System.EventHandler(this.retryButton_Click);
             // 
             // MainForm
             // 
@@ -93,6 +95,7 @@ namespace Goederenontvangst_server
             this.Controls.Add(this.label1);
             this.Controls.Add(this.portLabel);
             this.Controls.Add(this.ipLabel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
