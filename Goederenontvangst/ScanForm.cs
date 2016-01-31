@@ -39,6 +39,7 @@ namespace Goederenontvangst
             if (pressedKey == "Escape")
             {
                 this.laser.ScannerEnabled = false;
+                this.laser.GoodReadEvent -= laser_GoodReadEvent;
                 this.Close();
                 key.Handled = true;
             }

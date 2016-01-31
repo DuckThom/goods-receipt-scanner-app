@@ -7,3 +7,7 @@ C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst-serv
 C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst-server\obj\Debug\Goederenontvangst-server.pdb
 C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst-server\obj\Debug\Goederenontvangst_server.MainForm.resources
 C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst-server\bin\Debug\Goederenontvangst-server.exe.config
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst-server\bin\Debug\Goederenontvangst-server.exe.manifest
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst-server\bin\Debug\Goederenontvangst-server.application
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst-server\obj\Debug\Goederenontvangst-server.exe.manifest
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst-server\obj\Debug\Goederenontvangst-server.application

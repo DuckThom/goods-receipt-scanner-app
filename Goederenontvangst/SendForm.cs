@@ -110,15 +110,15 @@ namespace Goederenontvangst
             }
             catch (ArgumentNullException e)
             {
-                return returnInFail(e.Message);
+                return returnInFail("ArgumentNullException: " + e.Message);
             }
             catch (SocketException e)
             {
-                return returnInFail(e.Message);
+                return returnInFail("SocketException: Kan geen vebinding maken met de server.");
             }
             catch (IOException e)
             {
-                return returnInFail(e.Message);
+                return returnInFail("IOException: " + e.Message);
             }
         }
 

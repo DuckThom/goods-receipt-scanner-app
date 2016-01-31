@@ -124,12 +124,6 @@ namespace Goederenontvangst_server
             catch (SocketException e)
             {
                 setStatus("Er is een fout opgetreden...");
-                Console.WriteLine("SocketException: {0}", e);
-            }
-            finally
-            {
-                // Stop listening for new clients.
-                //server.Stop();
             }
         }
 
