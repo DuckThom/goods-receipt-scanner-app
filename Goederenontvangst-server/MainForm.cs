@@ -46,6 +46,8 @@ namespace Goederenontvangst_server
             t = new Thread(startServer);
             t.IsBackground = true;
             t.Start();
+
+            this.Focus();
         }
 
         private void startServer()
