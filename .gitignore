@@ -1,2 +1,3 @@
 *.pfx
+*.suo
 */obj
