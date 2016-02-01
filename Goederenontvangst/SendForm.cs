@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.IO;
 using Microsoft.Win32;
+using datalogic.wireless;
 
 namespace Goederenontvangst
 {
@@ -112,7 +113,7 @@ namespace Goederenontvangst
             {
                 return returnInFail("ArgumentNullException: " + e.Message);
             }
-            catch (SocketException e)
+            catch (SocketException)
             {
                 return returnInFail("SocketException: Kan geen vebinding maken met de server.");
             }

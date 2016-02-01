@@ -23,3 +23,4 @@ C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\obj\
 C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\obj\Debug\Goederenontvangst.exe
 C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\obj\Debug\Goederenontvangst.pdb
 C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\obj\Debug\Goederenontvangst.SendForm.resources
+C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Goederenontvangst\bin\Debug\datalogic.wireless2005.dll

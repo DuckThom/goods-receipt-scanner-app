@@ -32,6 +32,7 @@ namespace Goederenontvangst
             this.headerLabel = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.statusLabel = new System.Windows.Forms.Label();
+            this.radioSignal1 = new datalogic.wireless.RadioSignal();
             this.SuspendLayout();
             // 
             // headerLabel
@@ -63,13 +64,27 @@ namespace Goederenontvangst
             this.statusLabel.Text = "Status";
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // radioSignal1
+            // 
+            this.radioSignal1.Active = true;
+            this.radioSignal1.DrawDir = datalogic.wireless.EDrawDir.ddHorizontal;
+            this.radioSignal1.FillColor = System.Drawing.Color.Green;
+            this.radioSignal1.Location = new System.Drawing.Point(3, 321);
+            this.radioSignal1.LowLevelColor = System.Drawing.Color.Red;
+            this.radioSignal1.Name = "radioSignal1";
+            this.radioSignal1.Size = new System.Drawing.Size(234, 28);
+            this.radioSignal1.TabIndex = 3;
+            this.radioSignal1.Text = "radioSignal1";
+            this.radioSignal1.TextInside = true;
+            this.radioSignal1.Threshold = 20;
+            // 
             // SendForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(640, 480);
             this.ControlBox = false;
+            this.Controls.Add(this.radioSignal1);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.headerLabel);
             this.Controls.Add(this.pictureBox1);
@@ -88,5 +103,6 @@ namespace Goederenontvangst
         private System.Windows.Forms.Label headerLabel;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label statusLabel;
+        private datalogic.wireless.RadioSignal radioSignal1;
     }
 }

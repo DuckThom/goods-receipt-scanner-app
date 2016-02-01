@@ -29,7 +29,7 @@ namespace Goederenontvangst
             {
                 this.serverIP = Registry.GetValue("HKEY_CURRENT_USER\\Goederenontvangst", "ServerIP", "(unset)").ToString();
             }
-            catch (NullReferenceException e)
+            catch (NullReferenceException)
             {
                 Registry.SetValue("HKEY_CURRENT_USER\\Goederenontvangst", "ServerIP", "(unset)");
                 this.serverIP = "(unset)";

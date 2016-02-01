@@ -46,8 +46,6 @@ namespace Goederenontvangst_server
             t = new Thread(startServer);
             t.IsBackground = true;
             t.Start();
-
-            this.retryButton.Visible = false;
         }
 
         private void startServer()
@@ -229,8 +227,6 @@ namespace Goederenontvangst_server
             }
             // Print the data
             printData();
-
-            this.retryButton.Visible = true;
         }
 
         private void printData()
