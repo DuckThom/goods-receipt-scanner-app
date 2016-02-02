@@ -10,13 +10,14 @@ using System.Threading;
 using System.IO;
 using Microsoft.Win32;
 using datalogic.wireless;
+using System.Net;
 
 namespace Goederenontvangst
 {
     public partial class SendForm : Form
     {
-        TcpClient client;
-        NetworkStream stream;
+        Socket client;
+        //NetworkStream stream;
         List<ScannedProduct> productList;
         String serverIp;
         Thread t;
@@ -37,9 +38,14 @@ namespace Goederenontvangst
             Connect(this.serverIp, this.productList);
         }
 
-        public bool Connect(String server, List<ScannedProduct> productList)
+        private bool Connect(String server, List<ScannedProduct> productList)
         {
             this.productList = productList;
+
+            if (!this.radioSignal1.IsAssociated())
+            {
+                returnInFail("Niet verbonden met een access point.");
+            }
 
             try
             {
@@ -50,18 +56,25 @@ namespace Goederenontvangst
                 // connected to the same address as specified by the server, port
                 // combination.
                 Int32 port = 23207;
-                this.client = new TcpClient(server, port);
-                this.stream = client.GetStream();
+                IPAddress ipAddr = IPAddress.Parse(this.serverIp);
+                IPEndPoint ipEndPoint = new IPEndPoint(ipAddr, port);
 
-                setStatus("Verbonden");
+                this.client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                // Connect the socket to the remote end point.
+                this.client.Connect(ipEndPoint);
+                
                 Byte[] data = Encoding.ASCII.GetBytes("@HELLO@");
-
-                stream.Write(data, 0, data.Length);
+                this.client.Send(data, data.Length, SocketFlags.None);
 
                 // Check the response
                 if (streamRead() != "@GOSERV@" + server + "@")
                 {
                     return returnInFail("Verbonden met verkeerde server", true);
+                }
+                else
+                {
+                    setStatus("Verbonden");
                 }
 
                 setStatus("Producten verzenden");
@@ -70,29 +83,29 @@ namespace Goederenontvangst
                     if (product.getCount() != "0")
                     {
                         data = Encoding.ASCII.GetBytes("@PROD@");
-                        stream.Write(data, 0, data.Length);
+                        this.client.Send(data, data.Length, SocketFlags.None);
 
-                        Thread.Sleep(200);
+                        Thread.Sleep(250);
 
                         Byte[] prodData = new Byte[16];
                         prodData = Encoding.ASCII.GetBytes(product.getProduct().PadLeft(16, (char) 69));
-                        stream.Write(prodData, 0, prodData.Length);
+                        this.client.Send(prodData, prodData.Length, SocketFlags.None);
 
-                        Thread.Sleep(200);
+                        Thread.Sleep(250);
 
                         data = Encoding.ASCII.GetBytes("@COUNT@");
-                        stream.Write(data, 0, data.Length);
+                        this.client.Send(data, data.Length, SocketFlags.None);
 
-                        Thread.Sleep(200);
+                        Thread.Sleep(250);
 
                         Byte[] countData = new Byte[16];
                         countData = Encoding.ASCII.GetBytes(product.getCount().PadLeft(16, (char)69));
-                        stream.Write(countData, 0, countData.Length);
+                        this.client.Send(countData, countData.Length, SocketFlags.None);
 
-                        Thread.Sleep(200);
+                        Thread.Sleep(250);
 
                         data = Encoding.ASCII.GetBytes("@ENDPROD@");
-                        stream.Write(data, 0, data.Length);
+                        this.client.Send(data, data.Length, SocketFlags.None);
 
                         if (streamRead() != "@RECV@")
                         {
@@ -103,7 +116,7 @@ namespace Goederenontvangst
 
                 setStatus("Voltooien");
                 data = Encoding.ASCII.GetBytes("@FINISH@");
-                stream.Write(data, 0, data.Length);
+                client.Send(data, data.Length, SocketFlags.None);
 
                 Thread.Sleep(50);
 
@@ -111,15 +124,15 @@ namespace Goederenontvangst
             }
             catch (ArgumentNullException e)
             {
-                return returnInFail("ArgumentNullException: " + e.Message);
+                return returnInFail("ArgumentNullException: " + e.Message, true);
             }
             catch (SocketException)
             {
-                return returnInFail("SocketException: Kan geen vebinding maken met de server.");
+                return returnInFail("SocketException: Fout in de verbinding met de server");
             }
             catch (IOException e)
             {
-                return returnInFail("IOException: " + e.Message);
+                return returnInFail("IOException: " + e.Message, true);
             }
         }
 
@@ -132,7 +145,7 @@ namespace Goederenontvangst
             String responseData = String.Empty;
 
             // Read the first batch of the TcpServer response bytes.
-            Int32 bytes = this.stream.Read(data, 0, data.Length);
+            Int32 bytes = this.client.Receive(data, data.Length, SocketFlags.None);
             responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
 
             return responseData;
@@ -142,14 +155,14 @@ namespace Goederenontvangst
         {
             if (close)
             {
-                this.stream.Close();
+                this.client.Shutdown(SocketShutdown.Both);
                 this.client.Close();
             }
 
             setStatus("Overdracht mislukt... " + message);
             Thread.Sleep(5000);
 
-            closeForm();
+            closeForm(false);
 
             return false;
         }
@@ -161,17 +174,13 @@ namespace Goederenontvangst
 
         private bool returnInSuccess()
         {
-            this.stream.Close();
+            this.client.Shutdown(SocketShutdown.Both);
             this.client.Close();
-
-            // Reset the product list
-            this.productList = null;
-            this.productList = new List<ScannedProduct>();
 
             setStatus("Overdracht gelukt!");
             Thread.Sleep(2000);
 
-            closeForm();
+            closeForm(true);
 
             return true;
         }
@@ -192,8 +201,15 @@ namespace Goederenontvangst
 
         public delegate void CloseDelegate();
 
-        private void closeForm()
+        private void closeForm(bool reset)
         {
+            if (reset)
+            {
+                // Reset the product list
+                this.productList.Clear();
+                this.productList.TrimExcess();
+            }
+
             if (this.InvokeRequired)
             {
                 this.Invoke(new CloseDelegate(this.Close));
@@ -204,6 +220,23 @@ namespace Goederenontvangst
             }
 
             this.t.Abort();
+        }
+
+        /**
+         * Terminate a current socket session
+         * This will probably cause issues, only use it if the transmission is frozen
+         */
+        private void terminateButton_Click(object sender, EventArgs e)
+        {
+            setStatus("Stopping transmission, this WILL cause issues");
+            this.Update();
+            Thread.Sleep(500);
+            this.t.Abort();
+            Thread.Sleep(1000);
+            setStatus("Transmission terminated, app and server restart recommended");
+            this.Update();
+            Thread.Sleep(2000);
+            this.Close();
         }
     }
 }

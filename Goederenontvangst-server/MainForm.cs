@@ -115,6 +115,7 @@ namespace Goederenontvangst_server
                             input = streamRead();
                         }
 
+                        // Update the received product list with data from the database
                         UpdateProductsFromDatabase();
 
                         Thread.Sleep(1000);

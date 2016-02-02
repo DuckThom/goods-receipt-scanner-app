@@ -33,6 +33,7 @@ namespace Goederenontvangst
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.statusLabel = new System.Windows.Forms.Label();
             this.radioSignal1 = new datalogic.wireless.RadioSignal();
+            this.terminateButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // headerLabel
@@ -78,12 +79,24 @@ namespace Goederenontvangst
             this.radioSignal1.TextInside = true;
             this.radioSignal1.Threshold = 20;
             // 
+            // terminateButton
+            // 
+            this.terminateButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(8)))), ((int)(((byte)(48)))));
+            this.terminateButton.ForeColor = System.Drawing.Color.White;
+            this.terminateButton.Location = new System.Drawing.Point(0, 0);
+            this.terminateButton.Name = "terminateButton";
+            this.terminateButton.Size = new System.Drawing.Size(39, 41);
+            this.terminateButton.TabIndex = 7;
+            this.terminateButton.Text = "X";
+            this.terminateButton.Click += new System.EventHandler(this.terminateButton_Click);
+            // 
             // SendForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(640, 480);
             this.ControlBox = false;
+            this.Controls.Add(this.terminateButton);
             this.Controls.Add(this.radioSignal1);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.headerLabel);
@@ -104,5 +117,6 @@ namespace Goederenontvangst
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label statusLabel;
         private datalogic.wireless.RadioSignal radioSignal1;
+        private System.Windows.Forms.Button terminateButton;
     }
 }

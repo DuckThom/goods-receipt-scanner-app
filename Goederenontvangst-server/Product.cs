@@ -9,9 +9,9 @@ namespace Goederenontvangst_server
         private string product;
         private string count;
         private bool print = true;
-        private string EAN;
-        private string location;
-        private string name;
+        private string EAN = "";
+        private string location = "";
+        private string name = "";
 
         public Product setProduct(string product)
         {
