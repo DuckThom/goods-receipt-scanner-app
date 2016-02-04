@@ -34,6 +34,8 @@ namespace Goederenontvangst
                 Registry.SetValue("HKEY_CURRENT_USER\\Goederenontvangst", "ServerIP", "(unset)");
                 this.serverIP = "(unset)";
             }
+
+            this.ipLabel.Text = "Server IP: " + this.serverIP.ToString();
         }
 
         /**
@@ -153,6 +155,8 @@ namespace Goederenontvangst
         private void menuItem2_Click(object sender, EventArgs e)
         {
             showDialogForm("IP wijzigen", true);
+
+            this.ipLabel.Text = "Server IP: " + this.serverIP.ToString();
         } 
     }
 }

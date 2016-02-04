@@ -37,6 +37,7 @@ namespace Goederenontvangst
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
             this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.menuItem2 = new System.Windows.Forms.MenuItem();
+            this.ipLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // scanButton
@@ -92,6 +93,15 @@ namespace Goederenontvangst
             this.menuItem2.Text = "IP Adres";
             this.menuItem2.Click += new System.EventHandler(this.menuItem2_Click);
             // 
+            // ipLabel
+            // 
+            this.ipLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(8)))), ((int)(((byte)(48)))));
+            this.ipLabel.ForeColor = System.Drawing.Color.White;
+            this.ipLabel.Location = new System.Drawing.Point(3, 32);
+            this.ipLabel.Name = "ipLabel";
+            this.ipLabel.Size = new System.Drawing.Size(232, 20);
+            this.ipLabel.Text = "IP: ";
+            // 
             // MainMenuForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -99,6 +109,7 @@ namespace Goederenontvangst
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(638, 455);
             this.ControlBox = false;
+            this.Controls.Add(this.ipLabel);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.sendButton);
             this.Controls.Add(this.scanButton);
@@ -124,5 +135,6 @@ namespace Goederenontvangst
         private System.Windows.Forms.MainMenu mainMenu1;
         private System.Windows.Forms.MenuItem menuItem1;
         private System.Windows.Forms.MenuItem menuItem2;
+        private System.Windows.Forms.Label ipLabel;
     }
 }
