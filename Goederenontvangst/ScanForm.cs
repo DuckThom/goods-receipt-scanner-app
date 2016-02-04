@@ -50,7 +50,7 @@ namespace Goederenontvangst
             }
             else if (pressedKey == "Return" && this.productTextBox.Focused)
             {
-                if (this.productTextBox.Text.Length == 7)
+                if (this.productTextBox.Text.Length == 7 || this.productTextBox.Text.Length == 8)
                 {
                     this.countTextBox.Focus();
                 }
@@ -60,7 +60,7 @@ namespace Goederenontvangst
 
         private void ProductTextBox_TextChanged(object sender, EventArgs argv)
         {
-            if (this.productTextBox.Text.Length == 7)
+            if (this.productTextBox.Text.Length == 7 || this.productTextBox.Text.Length == 8)
             {
                 this.countTextBox.Enabled = true;
             }
