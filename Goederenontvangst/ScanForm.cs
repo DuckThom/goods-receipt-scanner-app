@@ -26,13 +26,14 @@ namespace Goederenontvangst
             this.laser.GoodReadEvent += new ScannerEngine.LaserEventHandler(laser_GoodReadEvent);
             this.laser.ScannerEnabled = true;
 
-            this.KeyDown += new KeyEventHandler(ScanMenuForm_KeyDown);
-            countTextBox.KeyPress += new KeyPressEventHandler(submitProductWithEnterKey);
+            this.KeyDown += new KeyEventHandler(ScanForm_KeyDown);
+            this.countTextBox.KeyPress += new KeyPressEventHandler(submitProductWithEnterKey);
+            this.productTextBox.TextChanged += new EventHandler(ProductTextBox_TextChanged);
 
             productTextBox.Focus();
         }
 
-        private void ScanMenuForm_KeyDown(object sender, KeyEventArgs key)
+        private void ScanForm_KeyDown(object sender, KeyEventArgs key)
         {
             String pressedKey = key.KeyCode.ToString();
 
@@ -40,8 +41,32 @@ namespace Goederenontvangst
             {
                 this.laser.ScannerEnabled = false;
                 this.laser.GoodReadEvent -= laser_GoodReadEvent;
+
+                this.KeyDown -= ScanForm_KeyDown;
+                this.productTextBox.TextChanged -= ProductTextBox_TextChanged;
+
                 this.Close();
                 key.Handled = true;
+            }
+            else if (pressedKey == "Return" && this.productTextBox.Focused)
+            {
+                if (this.productTextBox.Text.Length == 7)
+                {
+                    this.countTextBox.Focus();
+                }
+                key.Handled = true;
+            }
+        }
+
+        private void ProductTextBox_TextChanged(object sender, EventArgs argv)
+        {
+            if (this.productTextBox.Text.Length == 7)
+            {
+                this.countTextBox.Enabled = true;
+            }
+            else
+            {
+                this.countTextBox.Enabled = false;
             }
         }
 
@@ -53,14 +78,14 @@ namespace Goederenontvangst
 
             if (this.productList.Exists(findScannedProduct))
             {
-                countTextBox.Text = this.productList.Find(findScannedProduct).getCount();
+                this.countTextBox.Text = this.productList.Find(findScannedProduct).getCount();
                 this.replace = true;
             }
 
             if (productTextBox.Text != String.Empty)
             {
-                countTextBox.Enabled = true;
-                countTextBox.Focus();
+                this.countTextBox.Enabled = true;
+                this.countTextBox.Focus();
             }
         }
 
