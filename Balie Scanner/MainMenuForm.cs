@@ -13,7 +13,7 @@ using System.Net;
 using System.Security;
 using System.IO;
 
-namespace Goederenontvangst
+namespace BalieScanner
 {
     public partial class MainMenuForm : Form
     {

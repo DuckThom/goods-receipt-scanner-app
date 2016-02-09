@@ -1,4 +1,4 @@
-namespace Goederenontvangst
+namespace BalieScanner
 {
     partial class MainMenuForm
     {
@@ -73,7 +73,7 @@ namespace Goederenontvangst
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(194)))), ((int)(((byte)(39)))), ((int)(((byte)(45)))));
+            this.pictureBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(8)))), ((int)(((byte)(48)))));
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
@@ -114,7 +114,7 @@ namespace Goederenontvangst
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(8)))), ((int)(((byte)(48)))));
             this.ClientSize = new System.Drawing.Size(638, 455);
             this.ControlBox = false;
             this.Controls.Add(this.ipLabel);
@@ -127,7 +127,7 @@ namespace Goederenontvangst
             this.Menu = this.mainMenu1;
             this.MinimizeBox = false;
             this.Name = "MainMenuForm";
-            this.Text = "Goederenontvangst : Menu";
+            this.Text = "Balie Scanner : Menu";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
 

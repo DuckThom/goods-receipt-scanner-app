@@ -17,7 +17,7 @@ namespace Goederenontvangst_server
     {
         Thread t;
         TcpListener server;
-        List<Product> productList;
+        List<Product> productList = new List<Product>();
         NetworkStream stream;
         Product product;
 
@@ -96,7 +96,11 @@ namespace Goederenontvangst_server
                             {
                                 this.product = new Product();
 
-                                this.product.setProduct(streamReadFixed());
+                                string product_number = streamReadFixed();
+
+                                this.product.setProduct(product_number);
+
+                                setStatus("Ontvangen van product: " + product_number);
                             }
                             else if (input == "@COUNT@")
                             {
@@ -126,7 +130,7 @@ namespace Goederenontvangst_server
             {
                 setStatus("Er is een fout opgetreden...");
 
-                MessageBox.Show("SocketException", e.Message,
+                MessageBox.Show(e.Message, "SocketException",
                                  MessageBoxButtons.OK,
                                  MessageBoxIcon.Error);
 
@@ -239,6 +243,9 @@ namespace Goederenontvangst_server
             {
                 if (product.getCount() != null && product.getCount() != "0")
                 {
+                    // Set this back to true so the retry button wont cause an endless loop
+                    product.setPrint(true);
+
                     _totalToPrint++;
                 }
             }
@@ -329,7 +336,7 @@ namespace Goederenontvangst_server
             }
             else
             {
-                MessageBox.Show("Geen producten", "De producten lijst is leeg.",
+                MessageBox.Show("De producten lijst is leeg.", "Geen producten",
                                  MessageBoxButtons.OK,
                                  MessageBoxIcon.Warning);
             }
