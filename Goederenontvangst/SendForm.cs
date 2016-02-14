@@ -68,7 +68,7 @@ namespace Goederenontvangst
                 this.client.Send(data, data.Length, SocketFlags.None);
 
                 // Check the response
-                if (streamRead() != "@GOSERV@" + server + "@")
+                if (streamRead(32) != "@GOSERV@" + server + "@")
                 {
                     return returnInFail("Verbonden met verkeerde server", true);
                 }
@@ -82,30 +82,23 @@ namespace Goederenontvangst
                 {
                     if (product.getCount() != "0")
                     {
-                        data = Encoding.ASCII.GetBytes("@PROD@");
-                        this.client.Send(data, data.Length, SocketFlags.None);
+                        streamWrite("@PROD@");
 
-                        Thread.Sleep(250);
+                        Thread.Sleep(100);
 
-                        Byte[] prodData = new Byte[16];
-                        prodData = Encoding.ASCII.GetBytes(product.getProduct().PadLeft(16, (char) 69));
-                        this.client.Send(prodData, prodData.Length, SocketFlags.None);
+                        streamWrite(product.getProduct());
 
-                        Thread.Sleep(250);
+                        Thread.Sleep(100);
 
-                        data = Encoding.ASCII.GetBytes("@COUNT@");
-                        this.client.Send(data, data.Length, SocketFlags.None);
+                        streamWrite("@COUNT@");
 
-                        Thread.Sleep(250);
+                        Thread.Sleep(100);
 
-                        Byte[] countData = new Byte[16];
-                        countData = Encoding.ASCII.GetBytes(product.getCount().PadLeft(16, (char)69));
-                        this.client.Send(countData, countData.Length, SocketFlags.None);
+                        streamWrite(product.getCount());
 
-                        Thread.Sleep(250);
+                        Thread.Sleep(100);
 
-                        data = Encoding.ASCII.GetBytes("@ENDPROD@");
-                        this.client.Send(data, data.Length, SocketFlags.None);
+                        streamWrite("@ENDPROD@");
 
                         if (streamRead() != "@RECV@")
                         {
@@ -115,8 +108,8 @@ namespace Goederenontvangst
                 }
 
                 setStatus("Voltooien");
-                data = Encoding.ASCII.GetBytes("@FINISH@");
-                client.Send(data, data.Length, SocketFlags.None);
+
+                streamWrite("@FINISH@");
 
                 Thread.Sleep(50);
 
@@ -136,10 +129,24 @@ namespace Goederenontvangst
             }
         }
 
-        private String streamRead()
+        private void streamWrite(String message, Int16 size)
+        {
+            Byte[] data = new Byte[size];
+
+            data = Encoding.ASCII.GetBytes(message.PadLeft(size, (char)36));
+
+            this.client.Send(data, data.Length, SocketFlags.None);
+        }
+
+        private void streamWrite(String message)
+        {
+            streamWrite(message, 16);
+        }
+
+        private String streamRead(Int16 size)
         {
             // Buffer to store the response bytes.
-            Byte[] data = new Byte[256];
+            Byte[] data = new Byte[size];
 
             // String to store the response ASCII representation.
             String responseData = String.Empty;
@@ -148,7 +155,12 @@ namespace Goederenontvangst
             Int32 bytes = this.client.Receive(data, data.Length, SocketFlags.None);
             responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
 
-            return responseData;
+            return responseData.Replace("$", "");
+        }
+
+        private String streamRead()
+        {
+            return streamRead(16);
         }
 
         private bool returnInFail(String message, bool close)
@@ -176,6 +188,11 @@ namespace Goederenontvangst
         {
             this.client.Shutdown(SocketShutdown.Both);
             this.client.Close();
+
+            string path = "\\Backup\\goederenontvangst\\scannerdata.txt";
+
+            if (File.Exists(path))
+                File.Delete(path);
 
             setStatus("Overdracht gelukt!");
             Thread.Sleep(2000);

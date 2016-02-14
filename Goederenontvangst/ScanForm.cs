@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using datalogic.datacapture;
+using System.IO;
 
 namespace Goederenontvangst
 {
@@ -45,6 +46,17 @@ namespace Goederenontvangst
                 this.KeyDown -= ScanForm_KeyDown;
                 this.countTextBox.KeyPress -= submitProductWithEnterKey;
                 this.productTextBox.TextChanged -= ProductTextBox_TextChanged;
+
+                // Save the product list to file as backup
+                string directory = "\\Backup\\goederenontvangst";
+                StreamWriter file = new StreamWriter(directory + "\\scannerdata.txt");
+
+                foreach (ScannedProduct product in this.productList)
+                {
+                    file.WriteLine(product.getProduct() + "," + product.getCount());
+                }
+
+                file.Close();
 
                 this.Close();
                 key.Handled = true;
@@ -104,17 +116,13 @@ namespace Goederenontvangst
                     this.productList.Find(findScannedProduct).setCount(countTextBox.Text);
                     this.replace = false;
                 }
-                //else if (Convert.ToDouble(countTextBox.Text) <= 0.0)
-                //{
-                //   this.productList.Remove(this.productList.Find(findScannedProduct));
-                //}
                 else
                 {
                     ScannedProduct sp = new ScannedProduct(productTextBox.Text);
                     sp.setCount(countTextBox.Text);
 
                     this.productList.Add(sp);
-                }  
+                }
 
                 countTextBox.Enabled = false;
 

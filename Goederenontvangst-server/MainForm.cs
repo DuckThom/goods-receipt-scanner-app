@@ -18,7 +18,7 @@ namespace Goederenontvangst_server
         Thread t;
         TcpListener server;
         List<Product> productList = new List<Product>();
-        NetworkStream stream;
+        Socket client;
         Product product;
 
         int _totalPrinted = 0;
@@ -26,6 +26,8 @@ namespace Goederenontvangst_server
 
         string _dbPath = Properties.Settings.Default.DBPath;
         string ipAddress;
+
+        bool _continue = true;
 
         public delegate void UpdateTextCallback(string text);
 
@@ -64,28 +66,20 @@ namespace Goederenontvangst_server
                 // Start listening for client requests.
                 server.Start();
 
-                // Buffer for reading data
-                Byte[] data = new Byte[256];
-
                 // Enter the listening loop.
                 while (true)
                 {
                     setStatus("Waiting for a connection... ");
 
                     // Perform a blocking call to accept requests.
-                    // You could also user server.AcceptSocket() here.
-                    TcpClient client = server.AcceptTcpClient();
+                    client = server.AcceptSocket();
                  
                     setStatus("Connected!");
-
-                    // Get a stream object for reading and writing
-                    stream = client.GetStream();
 
                     if (streamRead() == "@HELLO@")
                     {
                         // Send HELLO response
-                        data = Encoding.ASCII.GetBytes("@GOSERV@" + this.ipAddress + "@");
-                        stream.Write(data, 0, data.Length);
+                        streamWrite("@GOSERV@" + this.ipAddress + "@", 32);
 
                         string input = streamRead();
                         this.productList = new List<Product>();
@@ -96,7 +90,7 @@ namespace Goederenontvangst_server
                             {
                                 this.product = new Product();
 
-                                string product_number = streamReadFixed();
+                                string product_number = streamRead();
 
                                 this.product.setProduct(product_number);
 
@@ -104,23 +98,37 @@ namespace Goederenontvangst_server
                             }
                             else if (input == "@COUNT@")
                             {
-                                this.product.setCount(streamReadFixed());
+                                this.product.setCount(streamRead());
                             }
                             else if (input == "@ENDPROD@")
                             {
                                 productList.Add(this.product);
 
-                                data = Encoding.ASCII.GetBytes("@RECV@");
-                                stream.Write(data, 0, data.Length);
+                                streamWrite("@RECV@");
 
                                 this.product = null;
+                            }
+                            else
+                            {
+                                streamWrite("@FAILED@");
+
+                                this._continue = false;
+
+                                break;
                             }
 
                             input = streamRead();
                         }
 
-                        // Update the received product list with data from the database
-                        UpdateProductsFromDatabase();
+                        if (this._continue)
+                        {
+                            // Update the received product list with data from the database
+                            UpdateProductsFromDatabase();
+                        }
+                        else
+                        {
+                            setStatus("Received incorrect data");
+                        }
 
                         Thread.Sleep(1000);
                     }
@@ -139,38 +147,40 @@ namespace Goederenontvangst_server
             }
         }
 
-        private String streamRead()
+        private void streamWrite(String message, Int16 size)
         {
-            // Buffer to store the response bytes.
-            Byte[] data = new Byte[256];
+            Byte[] data = new Byte[size];
 
-            // String to store the response ASCII representation.
-            String responseData = String.Empty;
+            data = Encoding.ASCII.GetBytes(message.PadLeft(size, (char)36));
 
-            // Read the first batch of the TcpServer response bytes.
-            Int32 bytes = this.stream.Read(data, 0, data.Length);
-            responseData = Encoding.ASCII.GetString(data, 0, bytes);
-
-            Console.WriteLine(responseData);
-
-            return responseData;
+            this.client.Send(data, data.Length, SocketFlags.None);
         }
 
-        private String streamReadFixed()
+        private void streamWrite(String message)
+        {
+            streamWrite(message, 16);
+        }
+
+        private String streamRead(Int16 size)
         {
             // Buffer to store the response bytes.
-            Byte[] data = new Byte[16];
+            Byte[] data = new Byte[size];
 
             // String to store the response ASCII representation.
             String responseData = String.Empty;
 
             // Read the first batch of the TcpServer response bytes.
-            Int32 bytes = this.stream.Read(data, 0, data.Length);
+            Int32 bytes = this.client.Receive(data, data.Length, SocketFlags.None);
             responseData = Encoding.ASCII.GetString(data, 0, bytes);
 
             Console.WriteLine(responseData);
 
-            return responseData.Replace("E", "");
+            return responseData.Replace("$", "");
+        }
+
+        private String streamRead()
+        {
+            return streamRead(16);
         }
 
         private void stopServer()
