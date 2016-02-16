@@ -42,22 +42,26 @@ namespace Goederenontvangst
 
             this.ipLabel.Text = "Server IP: " + this.serverIP.ToString();
 
-            // Repopulate the product list from the backup file
-            string line;
-            string directory = "\\Backup\\goederenontvangst";
-            StreamReader file = new StreamReader(directory + "\\scannerdata.txt");
-            while((line = file.ReadLine()) != null)
+            // Check if the file exists before trying to repopulate
+            if (File.Exists("\\Backup\\goederenontvangst\\scannerdata.txt"))
             {
-                string product = line.Split((char) 44)[0];
-                string count = line.Split((char) 44)[1];
+                // Repopulate the product list from the backup file
+                string line;
+                string directory = "\\Backup\\goederenontvangst";
+                StreamReader file = new StreamReader(directory + "\\scannerdata.txt");
+                while ((line = file.ReadLine()) != null)
+                {
+                    string product = line.Split((char)44)[0];
+                    string count = line.Split((char)44)[1];
 
-                ScannedProduct prod = new ScannedProduct(product);
-                prod.setCount(count);
+                    ScannedProduct prod = new ScannedProduct(product);
+                    prod.setCount(count);
 
-                this.productList.Add(prod);
+                    this.productList.Add(prod);
+                }
+
+                file.Close();
             }
-
-            file.Close();
         }
 
         /**

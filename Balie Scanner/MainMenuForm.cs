@@ -13,7 +13,7 @@ using System.Net;
 using System.Security;
 using System.IO;
 
-namespace BalieScanner
+namespace Goederenontvangst
 {
     public partial class MainMenuForm : Form
     {
@@ -41,6 +41,27 @@ namespace BalieScanner
             }
 
             this.ipLabel.Text = "Server IP: " + this.serverIP.ToString();
+
+            // Check if the file exists before trying to repopulate
+            if (File.Exists("\\Backup\\goederenontvangst\\scannerdata.txt"))
+            {
+                // Repopulate the product list from the backup file
+                string line;
+                string directory = "\\Backup\\goederenontvangst";
+                StreamReader file = new StreamReader(directory + "\\scannerdata.txt");
+                while ((line = file.ReadLine()) != null)
+                {
+                    string product = line.Split((char)44)[0];
+                    string count = line.Split((char)44)[1];
+
+                    ScannedProduct prod = new ScannedProduct(product);
+                    prod.setCount(count);
+
+                    this.productList.Add(prod);
+                }
+
+                file.Close();
+            }
         }
 
         /**
