@@ -12,7 +12,7 @@ using Microsoft.Win32;
 using datalogic.wireless;
 using System.Net;
 
-namespace Goederenontvangst
+namespace BalieScanner
 {
     public partial class SendForm : Form
     {

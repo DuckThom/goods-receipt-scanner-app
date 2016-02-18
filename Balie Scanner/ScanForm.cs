@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using datalogic.datacapture;
 using System.IO;
 
-namespace Goederenontvangst
+namespace BalieScanner
 {
     public partial class ScanForm : Form
     {

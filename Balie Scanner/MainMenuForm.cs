@@ -13,15 +13,16 @@ using System.Net;
 using System.Security;
 using System.IO;
 
-namespace Goederenontvangst
+namespace BalieScanner
 {
     public partial class MainMenuForm : Form
     {
         // The global list with the scanned products
+        public List<string> knownProductList;
         public List<ScannedProduct> productList = new List<ScannedProduct>();
         private string serverIP;
 
-        public MainMenuForm()
+        public MainMenuForm(List<string> knownProducts)
         {
             InitializeComponent();
 
@@ -29,6 +30,7 @@ namespace Goederenontvangst
             this.KeyDown += new KeyEventHandler(MainMenuForm_KeyDown);
             this.laser1.ScannerEnabled = false;
             this.nameMenuItem.Text = getHostName();
+            this.knownProductList = knownProducts;
 
             try
             {
