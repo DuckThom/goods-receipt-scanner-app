@@ -10,6 +10,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Drawing.Printing;
 using System.Data.OleDb;
+using System.IO;
 
 namespace Goederenontvangst_server
 {
@@ -24,6 +25,7 @@ namespace Goederenontvangst_server
         int _totalPrinted = 0;
         int _totalToPrint = 0;
 
+        string _dataPath = Application.StartupPath + "\\Data\\";
         string _dbPath = Properties.Settings.Default.DBPath;
         string ipAddress;
 
@@ -34,6 +36,9 @@ namespace Goederenontvangst_server
         public MainForm()
         {
             InitializeComponent();
+
+            if (!Directory.Exists(this._dataPath))
+                Directory.CreateDirectory(this._dataPath);
 
             IPAddress[] localIPs = Dns.GetHostAddresses(Dns.GetHostName());
             foreach (IPAddress addr in localIPs)
@@ -122,6 +127,7 @@ namespace Goederenontvangst_server
 
                         if (this._continue)
                         {
+                            saveToFile(this.productList);
                             // Update the received product list with data from the database
                             UpdateProductsFromDatabase();
                         }
@@ -199,6 +205,20 @@ namespace Goederenontvangst_server
             {
                 statusLabel.Text = text;
             }
+        }
+
+        private void saveToFile(List<Product> list)
+        {
+            string date = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString();
+            string filePath = this._dataPath + "scannerdata_" + date + ".txt";
+            StreamWriter file = new StreamWriter(filePath);
+
+            foreach (Product product in this.productList)
+            {
+                file.WriteLine(product.getProduct() + "," + product.getCount());
+            }
+
+            file.Close();
         }
 
         private void UpdateProductsFromDatabase()
@@ -308,7 +328,7 @@ namespace Goederenontvangst_server
 
             foreach (Product product in this.productList)
             {
-                if (product.getCount() != null && product.getPrint() && product.getCount() != "0")
+                if (product.getCount() != null && product.getPrint() && product.getCount() != "0" && count <= 25)
                 {
                     string qty = product.getCount().PadRight(10);
                     string number = product.getProduct().PadRight(15);

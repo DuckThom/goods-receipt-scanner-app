@@ -122,7 +122,7 @@ namespace BalieScanner
          */
         private void showScanForm()
         {
-            ScanForm scanform = new ScanForm(this.productList, this.laser1);
+            ScanForm scanform = new ScanForm(this.productList, this.knownProductList, this.laser1);
             scanform.Show();
         }
 

@@ -13,15 +13,17 @@ namespace BalieScanner
     public partial class ScanForm : Form
     {
         List<ScannedProduct> productList;
+        List<string> knownProductList;
         String scannerInput;
         Laser laser;
         bool replace = false;
 
-        public ScanForm(List<ScannedProduct> productList, Laser laser)
+        public ScanForm(List<ScannedProduct> productList, List<string> knownProducts, Laser laser)
         {
             InitializeComponent();
 
             this.productList = productList;
+            this.knownProductList = knownProducts;
             this.laser = laser;
 
             this.laser.GoodReadEvent += new ScannerEngine.LaserEventHandler(laser_GoodReadEvent);
@@ -109,7 +111,7 @@ namespace BalieScanner
 
         private void saveProductToList()
         {
-            if (productTextBox.Text != String.Empty && countTextBox.Text != String.Empty)
+            if (productTextBox.Text != String.Empty && countTextBox.Text != String.Empty && this.knownProductList.Exists(isProductKnown))
             {
                 if (this.replace)
                 {
@@ -143,6 +145,22 @@ namespace BalieScanner
         private bool findScannedProduct(ScannedProduct obj)
         {
             return obj.getProduct() == this.scannerInput;
+        }
+
+        private bool isProductKnown(string product)
+        {
+            if (product == this.scannerInput)
+            {
+                return true;
+            }
+            else
+            {
+                Console.WriteLine(MessageBox.Show("Het gescande product staat niet in de lijst. Doorgaan?", "Waarschuwing",
+                                 MessageBoxButtons.YesNo,
+                                 MessageBoxIcon.Exclamation,
+                                 MessageBoxDefaultButton.Button1));
+                return false;
+            }
         }
     }
 }
