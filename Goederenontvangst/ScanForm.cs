@@ -87,16 +87,21 @@ namespace Goederenontvangst
         {
             this.scannerInput = laser.BarcodeDataAsText;
 
-            productTextBox.Text = scannerInput;
-
-            if (this.productList.Exists(findScannedProduct))
+            if (productTextBox.Focused)
             {
-                this.countTextBox.Text = this.productList.Find(findScannedProduct).getCount();
-                this.replace = true;
-            }
+                if (this.productList.Exists(findScannedProduct))
+                {
+                    this.countTextBox.Text = this.productList.Find(findScannedProduct).getCount();
+                    this.replace = true;
+                }
+                else
+                {
+                    this.countTextBox.Text = String.Empty;
+                    this.replace = false;
+                }
 
-            if (productTextBox.Text != String.Empty)
-            {
+                productTextBox.Text = this.scannerInput;
+
                 this.countTextBox.Enabled = true;
                 this.countTextBox.Focus();
             }

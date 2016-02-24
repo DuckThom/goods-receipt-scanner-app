@@ -28,6 +28,7 @@ namespace BalieScanner
 
             this.laser.GoodReadEvent += new ScannerEngine.LaserEventHandler(laser_GoodReadEvent);
             this.laser.ScannerEnabled = true;
+            this.laser.EnableKeyboardEmulation(false);
 
             this.KeyDown += new KeyEventHandler(ScanForm_KeyDown);
             this.countTextBox.KeyPress += new KeyPressEventHandler(submitProductWithEnterKey);
@@ -89,16 +90,21 @@ namespace BalieScanner
         {
             this.scannerInput = laser.BarcodeDataAsText;
 
-            productTextBox.Text = scannerInput;
-
-            if (this.productList.Exists(findScannedProduct))
+            if (productTextBox.Focused)
             {
-                this.countTextBox.Text = this.productList.Find(findScannedProduct).getCount();
-                this.replace = true;
-            }
+                if (this.productList.Exists(findScannedProduct))
+                {
+                    this.countTextBox.Text = this.productList.Find(findScannedProduct).getCount();
+                    this.replace = true;
+                }
+                else
+                {
+                    this.countTextBox.Text = String.Empty;
+                    this.replace = false;
+                }
 
-            if (productTextBox.Text != String.Empty)
-            {
+                productTextBox.Text = this.scannerInput;
+
                 this.countTextBox.Enabled = true;
                 this.countTextBox.Focus();
             }
@@ -111,26 +117,29 @@ namespace BalieScanner
 
         private void saveProductToList()
         {
-            if (productTextBox.Text != String.Empty && countTextBox.Text != String.Empty && this.knownProductList.Exists(isProductKnown))
+            if (productTextBox.Text != String.Empty && countTextBox.Text != String.Empty)
             {
-                if (this.replace)
+                if (isProductKnown(productTextBox.Text))
                 {
-                    this.productList.Find(findScannedProduct).setCount(countTextBox.Text);
-                    this.replace = false;
+                    if (this.replace)
+                    {
+                        this.productList.Find(findScannedProduct).setCount(countTextBox.Text);
+                        this.replace = false;
+                    }
+                    else
+                    {
+                        ScannedProduct sp = new ScannedProduct(productTextBox.Text);
+                        sp.setCount(countTextBox.Text);
+
+                        this.productList.Add(sp);
+                    }
+
+                    countTextBox.Enabled = false;
+
+                    countTextBox.Text = productTextBox.Text = String.Empty;
+
+                    productTextBox.Focus();
                 }
-                else
-                {
-                    ScannedProduct sp = new ScannedProduct(productTextBox.Text);
-                    sp.setCount(countTextBox.Text);
-
-                    this.productList.Add(sp);
-                }
-
-                countTextBox.Enabled = false;
-
-                countTextBox.Text = productTextBox.Text = String.Empty;
-
-                productTextBox.Focus();
             }
         }
 
@@ -147,19 +156,25 @@ namespace BalieScanner
             return obj.getProduct() == this.scannerInput;
         }
 
-        private bool isProductKnown(string product)
+        private bool isProductKnown(string scannedProduct)
         {
-            if (product == this.scannerInput)
+            if (this.knownProductList.Contains(scannedProduct))
             {
                 return true;
             }
             else
             {
-                Console.WriteLine(MessageBox.Show("Het gescande product staat niet in de lijst. Doorgaan?", "Waarschuwing",
+                if (MessageBox.Show("Het gescande product staat niet in de lijst. Doorgaan?", "Waarschuwing",
                                  MessageBoxButtons.YesNo,
                                  MessageBoxIcon.Exclamation,
-                                 MessageBoxDefaultButton.Button1));
-                return false;
+                                 MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
     }
