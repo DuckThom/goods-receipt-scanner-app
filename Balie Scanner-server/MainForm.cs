@@ -21,6 +21,7 @@ namespace BalieScanner_server
         TcpListener server;
         List<string[]> productList = new List<string[]>();
         Socket client;
+        IniFile settings;
         string[] product;
 
         string _dataPath = Application.StartupPath + "\\Data\\";
@@ -31,9 +32,11 @@ namespace BalieScanner_server
 
         public delegate void UpdateTextCallback(string text);
 
-        public MainForm()
+        public MainForm(IniFile settings)
         {
             InitializeComponent();
+
+            this.settings = settings;
 
             if (!Directory.Exists(this._dataPath))
                 Directory.CreateDirectory(this._dataPath);
@@ -227,24 +230,36 @@ namespace BalieScanner_server
         [DllImport("user32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
 
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
         private void processList(List<string[]> list)
         {
-            foreach (string[] product in list)
+            IntPtr zero = IntPtr.Zero;
+            string[][] arrList = list.ToArray();
+
+            while (zero == IntPtr.Zero)
             {
-                IntPtr zero = IntPtr.Zero;
-                for (int i = 0; (i < 60) && (zero == IntPtr.Zero); i++)
+                Thread.Sleep(100);
+                zero = FindWindow(null, settings.IniReadValue("Default", "WindowName"));
+            }
+
+            SetForegroundWindow(zero);
+
+            // i+=0 is needed to keep the program in a loop until the correct window is in focus again
+            for (int i = 0; i < arrList.Length; i+=0)
+            { // I DID IT MOM! 
+
+                Console.Out.WriteLine("Target: " + zero.ToString() + " Focus: " + GetForegroundWindow().ToString());
+
+                if (zero == GetForegroundWindow())
                 {
-                    Thread.Sleep(500);
-                    zero = FindWindow(null, "notepad");
-                }
-                if (zero != IntPtr.Zero)
-                {
-                    SetForegroundWindow(zero);
-                    SendKeys.SendWait("{TAB}");
-                    SendKeys.SendWait("{TAB}");
-                    SendKeys.SendWait("{ENTER}");
+                    SendKeys.SendWait(arrList[i][0] + "{TAB}" + arrList[i][1] + "{TAB} {ENTER}");
                     SendKeys.Flush();
+                    i++;
                 }
+
+                Thread.Sleep(1000);
             }
         }
 
