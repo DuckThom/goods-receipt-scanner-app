@@ -237,29 +237,47 @@ namespace BalieScanner_server
         {
             IntPtr zero = IntPtr.Zero;
             string[][] arrList = list.ToArray();
+            string windowName = this.settings.IniReadValue("Default", "WindowName");
+            string keys = this.settings.IniReadValue("Default", "Keys");
+            int keyDelay = Int32.Parse(this.settings.IniReadValue("Default", "KeyDelay"));
+            int saveDelay = Int32.Parse(this.settings.IniReadValue("Default", "SaveDelay"));
+
+            char[] delimiter = { ',' };
 
             while (zero == IntPtr.Zero)
             {
+                Console.Out.WriteLine("Looking for window: " + windowName);
                 Thread.Sleep(100);
-                zero = FindWindow(null, settings.IniReadValue("Default", "WindowName"));
+                zero = FindWindow(null, windowName);
             }
 
             SetForegroundWindow(zero);
 
             // i+=0 is needed to keep the program in a loop until the correct window is in focus again
             for (int i = 0; i < arrList.Length; i+=0)
-            { // I DID IT MOM! 
-
-                Console.Out.WriteLine("Target: " + zero.ToString() + " Focus: " + GetForegroundWindow().ToString());
-
+            { 
                 if (zero == GetForegroundWindow())
                 {
-                    SendKeys.SendWait(arrList[i][0] + "{TAB}" + arrList[i][1] + "{TAB} {ENTER}");
+                    foreach(string key in keys.Split(delimiter))
+                    {
+                        if (key == "{SPACE}")
+                            SendKeys.SendWait(" ");
+                        else if (key == "{ARTNR}")
+                            SendKeys.SendWait(list[i][0]);
+                        else if (key == "{AANTAL}")
+                            SendKeys.SendWait(list[i][1]);
+                        else
+                            SendKeys.SendWait(key);
+
+                        Thread.Sleep(keyDelay);
+                    }
+                    
                     SendKeys.Flush();
-                    i++;
+                    
+                    i = i + 1;
                 }
 
-                Thread.Sleep(1000);
+                Thread.Sleep(saveDelay);
             }
         }
 

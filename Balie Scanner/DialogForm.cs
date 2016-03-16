@@ -38,7 +38,7 @@ namespace BalieScanner
         {
             if (this.hasInput && textBox1.Text != String.Empty)
             {
-                Registry.SetValue("HKEY_CURRENT_USER\\Goederenontvangst", "ServerIP", textBox1.Text);
+                Registry.SetValue("HKEY_CURRENT_USER\\BalieScanner", "ServerIP", textBox1.Text);
             }
 
             this.Close();

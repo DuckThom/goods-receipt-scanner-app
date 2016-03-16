@@ -68,7 +68,6 @@ namespace BalieScanner
             // radioSignal1
             // 
             this.radioSignal1.Active = true;
-            this.radioSignal1.DrawDir = datalogic.wireless.EDrawDir.ddHorizontal;
             this.radioSignal1.FillColor = System.Drawing.Color.Green;
             this.radioSignal1.Location = new System.Drawing.Point(3, 321);
             this.radioSignal1.LowLevelColor = System.Drawing.Color.Red;

@@ -55,7 +55,7 @@ namespace BalieScanner
                 // Note, for this client to work you need to have a TcpServer 
                 // connected to the same address as specified by the server, port
                 // combination.
-                Int32 port = 23207;
+                Int32 port = 14155; // NOE
                 IPAddress ipAddr = IPAddress.Parse(this.serverIp);
                 IPEndPoint ipEndPoint = new IPEndPoint(ipAddr, port);
 
@@ -68,7 +68,7 @@ namespace BalieScanner
                 this.client.Send(data, data.Length, SocketFlags.None);
 
                 // Check the response
-                if (streamRead(32) != "@GOSERV@" + server + "@")
+                if (streamRead(32) != "@MASERV@" + server + "@")
                 {
                     return returnInFail("Verbonden met verkeerde server", true);
                 }
@@ -189,7 +189,7 @@ namespace BalieScanner
             this.client.Shutdown(SocketShutdown.Both);
             this.client.Close();
 
-            string path = "\\Backup\\goederenontvangst\\scannerdata.txt";
+            string path = "\\Backup\\balie_scanner\\scannerdata.txt";
 
             if (File.Exists(path))
                 File.Delete(path);

@@ -34,22 +34,22 @@ namespace BalieScanner
 
             try
             {
-                this.serverIP = Registry.GetValue("HKEY_CURRENT_USER\\Goederenontvangst", "ServerIP", "(unset)").ToString();
+                this.serverIP = Registry.GetValue("HKEY_CURRENT_USER\\BalieScanner", "ServerIP", "(unset)").ToString();
             }
             catch (NullReferenceException)
             {
-                Registry.SetValue("HKEY_CURRENT_USER\\Goederenontvangst", "ServerIP", "(unset)");
+                Registry.SetValue("HKEY_CURRENT_USER\\BalieScanner", "ServerIP", "(unset)");
                 this.serverIP = "(unset)";
             }
 
             this.ipLabel.Text = "Server IP: " + this.serverIP.ToString();
 
             // Check if the file exists before trying to repopulate
-            if (File.Exists("\\Backup\\goederenontvangst\\scannerdata.txt"))
+            if (File.Exists("\\Backup\\balie_scanner\\scannerdata.txt"))
             {
                 // Repopulate the product list from the backup file
                 string line;
-                string directory = "\\Backup\\goederenontvangst";
+                string directory = "\\Backup\\balie_scanner";
                 StreamReader file = new StreamReader(directory + "\\scannerdata.txt");
                 while ((line = file.ReadLine()) != null)
                 {

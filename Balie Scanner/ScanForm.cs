@@ -51,7 +51,7 @@ namespace BalieScanner
                 this.productTextBox.TextChanged -= ProductTextBox_TextChanged;
 
                 // Save the product list to file as backup
-                string directory = "\\Backup\\goederenontvangst";
+                string directory = "\\Backup\\balie_scanner";
                 StreamWriter file = new StreamWriter(directory + "\\scannerdata.txt");
 
                 foreach (ScannedProduct product in this.productList)

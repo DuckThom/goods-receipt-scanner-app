@@ -52,7 +52,7 @@ namespace BalieScanner_server
             this.portLabel.Name = "portLabel";
             this.portLabel.Size = new System.Drawing.Size(62, 13);
             this.portLabel.TabIndex = 1;
-            this.portLabel.Text = "Port: 23207";
+            this.portLabel.Text = "Port: 14155";
             // 
             // label1
             // 
@@ -81,7 +81,7 @@ namespace BalieScanner_server
             this.retryButton.Name = "retryButton";
             this.retryButton.Size = new System.Drawing.Size(164, 32);
             this.retryButton.TabIndex = 4;
-            this.retryButton.Text = "Opnieuw printen";
+            this.retryButton.Text = "Opnieuw invoeren";
             this.retryButton.UseVisualStyleBackColor = true;
             this.retryButton.Click += new System.EventHandler(this.retryButton_Click);
             // 
@@ -99,7 +99,7 @@ namespace BalieScanner_server
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Goederenontvangst";
+            this.Text = "Balieserver";
             this.ResumeLayout(false);
             this.PerformLayout();
 
