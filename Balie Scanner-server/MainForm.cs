@@ -12,6 +12,7 @@ using System.Drawing.Printing;
 using System.Data.OleDb;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace BalieScanner_server
 {
@@ -25,7 +26,6 @@ namespace BalieScanner_server
         string[] product;
 
         string _dataPath = Application.StartupPath + "\\Data\\";
-        string _dbPath = Properties.Settings.Default.DBPath;
         string ipAddress;
 
         bool _continue = true;
@@ -293,6 +293,11 @@ namespace BalieScanner_server
                                  MessageBoxButtons.OK,
                                  MessageBoxIcon.Warning);
             }
+        }
+
+        private void settingsButton_Click(object sender, EventArgs e)
+        {
+            Process.Start(Application.StartupPath + "\\settings.ini");
         }
     }
 }

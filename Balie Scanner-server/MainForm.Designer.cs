@@ -34,6 +34,7 @@ namespace BalieScanner_server
             this.label1 = new System.Windows.Forms.Label();
             this.statusLabel = new System.Windows.Forms.Label();
             this.retryButton = new System.Windows.Forms.Button();
+            this.settingsButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ipLabel
@@ -85,11 +86,23 @@ namespace BalieScanner_server
             this.retryButton.UseVisualStyleBackColor = true;
             this.retryButton.Click += new System.EventHandler(this.retryButton_Click);
             // 
+            // settingsButton
+            // 
+            this.settingsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.settingsButton.Location = new System.Drawing.Point(308, 67);
+            this.settingsButton.Name = "settingsButton";
+            this.settingsButton.Size = new System.Drawing.Size(164, 32);
+            this.settingsButton.TabIndex = 5;
+            this.settingsButton.Text = "Instelingen...";
+            this.settingsButton.UseVisualStyleBackColor = true;
+            this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 162);
+            this.Controls.Add(this.settingsButton);
             this.Controls.Add(this.retryButton);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.label1);
@@ -112,6 +125,7 @@ namespace BalieScanner_server
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label statusLabel;
         private System.Windows.Forms.Button retryButton;
+        private System.Windows.Forms.Button settingsButton;
     }
 }
 

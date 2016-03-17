@@ -16,7 +16,7 @@
     <SignManifests>true</SignManifests>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <ApplicationIcon>Ecommerce-Barcode-Scanner-icon.ico</ApplicationIcon>
-    <PublishUrl>C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Installers\Goederenontvangst\</PublishUrl>
+    <PublishUrl>C:\Users\Luna Moonfang\Git-Repositories\Goederenontvangst\Installers\Balie Scanner\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -92,7 +92,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="settings.ini" />
+    <Content Include="settings.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

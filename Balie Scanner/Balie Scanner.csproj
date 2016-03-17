@@ -19,6 +19,7 @@
     </FormFactorID>
     <StartupObject>BalieScanner.Program</StartupObject>
     <DeployDirPrefix>\</DeployDirPrefix>
+    <ApplicationIcon>Ecommerce-Barcode-Scanner-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

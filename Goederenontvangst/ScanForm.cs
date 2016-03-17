@@ -66,6 +66,7 @@ namespace Goederenontvangst
                 if (this.productTextBox.Text.Length == 7 || this.productTextBox.Text.Length == 8)
                 {
                     this.countTextBox.Focus();
+                    this.countTextBox.SelectAll();
                 }
                 key.Handled = true;
             }
@@ -104,6 +105,7 @@ namespace Goederenontvangst
 
                 this.countTextBox.Enabled = true;
                 this.countTextBox.Focus();
+                this.countTextBox.SelectAll();
             }
         }
 

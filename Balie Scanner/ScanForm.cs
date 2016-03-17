@@ -69,6 +69,7 @@ namespace BalieScanner
                 if (this.productTextBox.Text.Length == 7 || this.productTextBox.Text.Length == 8)
                 {
                     this.countTextBox.Focus();
+                    this.countTextBox.SelectAll();
                 }
                 key.Handled = true;
             }
@@ -107,6 +108,7 @@ namespace BalieScanner
 
                 this.countTextBox.Enabled = true;
                 this.countTextBox.Focus();
+                this.countTextBox.SelectAll();
             }
         }
 

@@ -27,7 +27,7 @@ namespace BalieScanner
             InitializeComponent();
 
             this.productList = productList;
-            this.serverIp = Registry.GetValue("HKEY_CURRENT_USER\\Goederenontvangst", "ServerIP", "(unset)").ToString();
+            this.serverIp = Registry.GetValue("HKEY_CURRENT_USER\\BalieScanner", "ServerIP", "(unset)").ToString();
 
             this.t = new Thread(startThread);
             this.t.Start();
