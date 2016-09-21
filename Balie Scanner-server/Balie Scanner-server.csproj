@@ -10,8 +10,8 @@
     <RootNamespace>BalieScanner_server</RootNamespace>
     <AssemblyName>BalieScanner-server</AssemblyName>
     <StartupObject>BalieScanner_server.Program</StartupObject>
-    <ManifestCertificateThumbprint>260CCAEEAA942F1E96A900D8477CE12F55CDBAE1</ManifestCertificateThumbprint>
-    <ManifestKeyFile>Goederenontvangst-server_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestCertificateThumbprint>EBEEB861794C6ACA3F1BDD85F2FFB07AB9B704A7</ManifestCertificateThumbprint>
+    <ManifestKeyFile>Balie Scanner-server_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
     <SignManifests>true</SignManifests>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Balie Scanner-server_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

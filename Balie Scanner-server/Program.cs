@@ -18,7 +18,7 @@ namespace BalieScanner_server
         static void Main()
         {
             startApp();
-        } 
+        }
 
         static void startApp()
         {

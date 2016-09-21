@@ -23,10 +23,14 @@ namespace BalieScanner_server
         List<string[]> productList = new List<string[]>();
         Socket client;
         IniFile settings;
+        IntPtr zero = IntPtr.Zero;
         string[] product;
-
-        string _dataPath = Application.StartupPath + "\\Data\\";
         string ipAddress;
+        string windowName;
+        string keys;
+        string _dataPath = Application.StartupPath + "\\Data\\";
+        int keyDelay;
+        int saveDelay;
 
         bool _continue = true;
 
@@ -50,6 +54,11 @@ namespace BalieScanner_server
                     this.ipAddress = addr.ToString();
                 }
             }
+
+            this.windowName = settings.IniReadValue("Default", "WindowName");
+            this.keys = settings.IniReadValue("Default", "Keys");
+            this.keyDelay = Int32.Parse(settings.IniReadValue("Default", "KeyDelay"));
+            this.saveDelay = Int32.Parse(settings.IniReadValue("Default", "SaveDelay"));
 
             t = new Thread(startServer);
             t.IsBackground = true;
@@ -155,6 +164,9 @@ namespace BalieScanner_server
             }
         }
 
+        /**
+         * Write a message with fixed byte length to stream
+         */
         private void streamWrite(String message, Int16 size)
         {
             Byte[] data = new Byte[size];
@@ -164,11 +176,17 @@ namespace BalieScanner_server
             this.client.Send(data, data.Length, SocketFlags.None);
         }
 
+        /**
+         * Write a 16 byte message to stream
+         */
         private void streamWrite(String message)
         {
             streamWrite(message, 16);
         }
 
+        /**
+         * Read a fixed part of the stream
+         */
         private String streamRead(Int16 size)
         {
             // Buffer to store the response bytes.
@@ -186,17 +204,26 @@ namespace BalieScanner_server
             return responseData.Replace("$", "");
         }
 
+        /**
+         * Read 16 bytes of the stream
+         */
         private String streamRead()
         {
             return streamRead(16);
         }
 
+        /**
+         * Stop the TCP server
+         */
         private void stopServer()
         {
             server.Stop();
             t.Abort();
         }
 
+        /**
+         * Set status text in the window
+         */
         private void setStatus(string text)
         {
             if (statusLabel.InvokeRequired)
@@ -209,6 +236,9 @@ namespace BalieScanner_server
             }
         }
 
+        /**
+         * Save the product list to a file
+         */
         private void saveToFile(List<string[]> list)
         {
             string date = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString();
@@ -233,51 +263,61 @@ namespace BalieScanner_server
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
 
-        private void processList(List<string[]> list)
+        /**
+         * Find the target window
+         */
+        private void findTargetWindow()
         {
-            IntPtr zero = IntPtr.Zero;
-            string[][] arrList = list.ToArray();
-            string windowName = this.settings.IniReadValue("Default", "WindowName");
-            string keys = this.settings.IniReadValue("Default", "Keys");
-            int keyDelay = Int32.Parse(this.settings.IniReadValue("Default", "KeyDelay"));
-            int saveDelay = Int32.Parse(this.settings.IniReadValue("Default", "SaveDelay"));
-
-            char[] delimiter = { ',' };
-
             while (zero == IntPtr.Zero)
             {
-                Console.Out.WriteLine("Looking for window: " + windowName);
+                Console.Out.WriteLine("Looking for window: " + this.windowName);
                 Thread.Sleep(100);
-                zero = FindWindow(null, windowName);
+                zero = FindWindow(null, this.windowName);
             }
+        }
 
-            SetForegroundWindow(zero);
+        /**
+         * Check if the active window has focus
+         */
+        private bool targetWindowHasFocus()
+        {
+            return zero == GetForegroundWindow();
+        }
+
+        private void processList(List<string[]> list)
+        {
+            string[][] arrList = list.ToArray();
+            char[] delimiter = { ',' };
+
+            this.findTargetWindow();
 
             // i+=0 is needed to keep the program in a loop until the correct window is in focus again
             for (int i = 0; i < arrList.Length; i+=0)
-            { 
-                if (zero == GetForegroundWindow())
+            {
+                foreach (string key in keys.Split(delimiter))
                 {
-                    foreach(string key in keys.Split(delimiter))
+                    while (!this.targetWindowHasFocus())
                     {
-                        if (key == "{SPACE}")
-                            SendKeys.SendWait(" ");
-                        else if (key == "{ARTNR}")
-                            SendKeys.SendWait(list[i][0]);
-                        else if (key == "{AANTAL}")
-                            SendKeys.SendWait(list[i][1]);
-                        else
-                            SendKeys.SendWait(key);
-
-                        Thread.Sleep(keyDelay);
+                        setStatus("Waiting for '" + this.windowName + "' to get focus");
                     }
-                    
-                    SendKeys.Flush();
-                    
-                    i = i + 1;
+
+                    if (key == "{SPACE}")
+                        SendKeys.SendWait(" ");
+                    else if (key == "{ARTNR}")
+                        SendKeys.SendWait(list[i][0]);
+                    else if (key == "{AANTAL}")
+                        SendKeys.SendWait(list[i][1]);
+                    else
+                        SendKeys.SendWait(key);
+
+                    Thread.Sleep(this.keyDelay);
                 }
 
-                Thread.Sleep(saveDelay);
+                SendKeys.Flush();
+
+                i = i + 1;
+
+                Thread.Sleep(this.saveDelay);
             }
         }
 
@@ -286,10 +326,12 @@ namespace BalieScanner_server
             if (this.productList.Count > 0)
             {
                 setStatus("Opnieuw uitvoeren");
+
+                processList(this.productList);
             }
             else
             {
-                MessageBox.Show("De producten lijst is leeg.", "Geen producten",
+                MessageBox.Show("Geen producten in het geheugen.", "Geen producten",
                                  MessageBoxButtons.OK,
                                  MessageBoxIcon.Warning);
             }
