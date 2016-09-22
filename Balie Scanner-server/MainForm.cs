@@ -28,7 +28,9 @@ namespace BalieScanner_server
         string ipAddress;
         string windowName;
         string keys;
-        string _dataPath = Application.StartupPath + "\\Data\\";
+        string dataPath;
+        string appDataPath;
+        string basePath;
         int keyDelay;
         int saveDelay;
 
@@ -42,8 +44,14 @@ namespace BalieScanner_server
 
             this.settings = settings;
 
-            if (!Directory.Exists(this._dataPath))
-                Directory.CreateDirectory(this._dataPath);
+            this.appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            this.basePath = Path.Combine(appDataPath, "BalieScanner");
+            this.dataPath = Path.Combine(basePath, "Data");
+
+            if (!Directory.Exists(this.dataPath))
+            {
+                Directory.CreateDirectory(this.dataPath);
+            }
 
             IPAddress[] localIPs = Dns.GetHostAddresses(Dns.GetHostName());
             foreach (IPAddress addr in localIPs)
@@ -242,7 +250,7 @@ namespace BalieScanner_server
         private void saveToFile(List<string[]> list)
         {
             string date = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Day.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString();
-            string filePath = this._dataPath + "scannerdata_" + date + ".txt";
+            string filePath = Path.Combine(this.dataPath, "scannerdata_" + date + ".txt");
             StreamWriter file = new StreamWriter(filePath);
 
             foreach (string[] product in list)
@@ -299,7 +307,10 @@ namespace BalieScanner_server
                     while (!this.targetWindowHasFocus())
                     {
                         setStatus("Waiting for '" + this.windowName + "' to get focus");
+                        Thread.Sleep(100);
                     }
+
+                    Thread.Sleep(this.keyDelay);
 
                     if (key == "{SPACE}")
                         SendKeys.SendWait(" ");
@@ -309,8 +320,6 @@ namespace BalieScanner_server
                         SendKeys.SendWait(list[i][1]);
                     else
                         SendKeys.SendWait(key);
-
-                    Thread.Sleep(this.keyDelay);
                 }
 
                 SendKeys.Flush();
@@ -326,6 +335,10 @@ namespace BalieScanner_server
             if (this.productList.Count > 0)
             {
                 setStatus("Opnieuw uitvoeren");
+
+                MessageBox.Show("Producten worden opnieuw verzonden.\r\nZodra het scherm met de naam '" + this.windowName + "' de focus heeft, zal het zenden beginnen.", "Opnieuw uitvoeren",
+                                 MessageBoxButtons.OK,
+                                 MessageBoxIcon.Information);
 
                 processList(this.productList);
             }

@@ -4,24 +4,21 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Collections.Specialized;
 
 namespace BalieScanner_server
 {
     static class Program
     {
-        public static IniFile settings = new IniFile(Application.StartupPath + "\\settings.ini");
-
+       
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            startApp();
-        }
+            IniFile settings = new IniFile(Application.StartupPath + "\\settings.ini");
 
-        static void startApp()
-        {
             Application.Run(new MainForm(settings));
         }
     }
