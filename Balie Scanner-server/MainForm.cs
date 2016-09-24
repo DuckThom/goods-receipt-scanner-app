@@ -294,20 +294,22 @@ namespace BalieScanner_server
 
         private void processList(List<string[]> list)
         {
-            string[][] arrList = list.ToArray();
+            string[][] productArray = list.ToArray();
             char[] delimiter = { ',' };
+            string[] keyArray = this.keys.Split(delimiter);
 
             this.findTargetWindow();
 
             // i+=0 is needed to keep the program in a loop until the correct window is in focus again
-            for (int i = 0; i < arrList.Length; i+=0)
+            for (int i = 0; i < productArray.Length; i+=0)
             {
-                foreach (string key in keys.Split(delimiter))
+                for (int n = 0; n < keyArray.Length; n+=0)
                 {
+                    string key = keyArray[n];
+
                     while (!this.targetWindowHasFocus())
                     {
                         setStatus("Waiting for '" + this.windowName + "' to get focus");
-                        Thread.Sleep(100);
                     }
 
                     Thread.Sleep(this.keyDelay);
@@ -315,11 +317,17 @@ namespace BalieScanner_server
                     if (key == "{SPACE}")
                         SendKeys.SendWait(" ");
                     else if (key == "{ARTNR}")
-                        SendKeys.SendWait(list[i][0]);
+                        SendKeys.SendWait(productArray[i][0]);
                     else if (key == "{AANTAL}")
-                        SendKeys.SendWait(list[i][1]);
+                        SendKeys.SendWait(productArray[i][1]);
                     else
                         SendKeys.SendWait(key);
+
+                    // Increment the key counter only if the window still has focus
+                    if (this.targetWindowHasFocus())
+                    {
+                        n = n + 1;
+                    }
                 }
 
                 SendKeys.Flush();
