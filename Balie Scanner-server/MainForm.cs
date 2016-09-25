@@ -13,6 +13,7 @@ using System.Data.OleDb;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Media;
 
 namespace BalieScanner_server
 {
@@ -24,6 +25,7 @@ namespace BalieScanner_server
         Socket client;
         IniFile settings;
         IntPtr zero = IntPtr.Zero;
+        SoundPlayer simpleSound;
         string[] product;
         string ipAddress;
         string windowName;
@@ -43,6 +45,8 @@ namespace BalieScanner_server
             InitializeComponent();
 
             this.settings = settings;
+
+            this.simpleSound = new SoundPlayer(@"c:\Windows\Media\chimes.wav");
 
             this.appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             this.basePath = Path.Combine(appDataPath, "BalieScanner");
@@ -276,6 +280,9 @@ namespace BalieScanner_server
          */
         private void findTargetWindow()
         {
+            // Reset the pointer before looking for the window again
+            zero = IntPtr.Zero;
+
             while (zero == IntPtr.Zero)
             {
                 Console.Out.WriteLine("Looking for window: " + this.windowName);
@@ -303,16 +310,19 @@ namespace BalieScanner_server
             // i+=0 is needed to keep the program in a loop until the correct window is in focus again
             for (int i = 0; i < productArray.Length; i+=0)
             {
-                for (int n = 0; n < keyArray.Length; n+=0)
+                // int n = 0; n < keyArray.Length; n += 0
+                foreach (string key in keyArray)
                 {
-                    string key = keyArray[n];
 
-                    while (!this.targetWindowHasFocus())
+                    if (!this.targetWindowHasFocus())
                     {
-                        setStatus("Waiting for '" + this.windowName + "' to get focus");
-                    }
+                        while (!this.targetWindowHasFocus())
+                        {
+                            setStatus("Waiting for '" + this.windowName + "' to get focus");
+                        }
 
-                    Thread.Sleep(this.keyDelay);
+                        Thread.Sleep(250);
+                    }
 
                     if (key == "{SPACE}")
                         SendKeys.SendWait(" ");
@@ -323,11 +333,12 @@ namespace BalieScanner_server
                     else
                         SendKeys.SendWait(key);
 
-                    // Increment the key counter only if the window still has focus
-                    if (this.targetWindowHasFocus())
-                    {
-                        n = n + 1;
-                    }
+                
+                    //simpleSound.Play();
+
+                    Thread.Sleep(this.keyDelay);
+
+                    // n = n + 1;
                 }
 
                 SendKeys.Flush();
@@ -349,6 +360,8 @@ namespace BalieScanner_server
                                  MessageBoxIcon.Information);
 
                 processList(this.productList);
+
+                setStatus("Producten zijn opnieuw ingelezen");
             }
             else
             {
