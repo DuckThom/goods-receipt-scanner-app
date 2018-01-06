@@ -5,5 +5,23 @@
     <Setting Name="DBPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">unset</Value>
     </Setting>
+    <Setting Name="DBName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">unset</Value>
+    </Setting>
+    <Setting Name="ColumnSku" Type="System.String" Scope="User">
+      <Value Profile="(Default)">unset</Value>
+    </Setting>
+    <Setting Name="ColumnLocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)">unset</Value>
+    </Setting>
+    <Setting Name="ColumnDescription" Type="System.String" Scope="User">
+      <Value Profile="(Default)">unset</Value>
+    </Setting>
+    <Setting Name="ColumnEan" Type="System.String" Scope="User">
+      <Value Profile="(Default)">unset</Value>
+    </Setting>
+    <Setting Name="TableName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">unset</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

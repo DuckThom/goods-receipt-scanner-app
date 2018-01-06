@@ -28,6 +28,12 @@ namespace Goederenontvangst_server
         string _dataPath = Application.StartupPath + "\\Data\\";
         string _dbPath = Properties.Settings.Default.DBPath;
         string ipAddress;
+        string dbName = Properties.Settings.Default.DBName;
+        string columnSku = Properties.Settings.Default.ColumnSku;
+        string columnLocation = Properties.Settings.Default.ColumnLocation;
+        string columnDescription = Properties.Settings.Default.ColumnDescription;
+        string columnEan = Properties.Settings.Default.ColumnEan;
+        string tableName = Properties.Settings.Default.TableName;
 
         bool _continue = true;
 
@@ -239,21 +245,21 @@ namespace Goederenontvangst_server
 
                     OleDbDataAdapter myAdapter = new OleDbDataAdapter();
 
-                    OleDbCommand command = new OleDbCommand("SELECT * FROM tblArtikelen WHERE Omnivers_nummer = '" + product.getProduct() + "'", dbConnection);
+                    OleDbCommand command = new OleDbCommand("SELECT * FROM " + this.tableName + " WHERE " + this.columnSku + " = '" + product.getProduct() + "'", dbConnection);
 
                     myAdapter.SelectCommand = command;
-                    myAdapter.Fill(dataSet, "tblArtikelen");
+                    myAdapter.Fill(dataSet, this.tableName);
 
                     if (dataSet != null)
                     {
-                        DataRowCollection rowCollection = dataSet.Tables["tblArtikelen"].Rows;
+                        DataRowCollection rowCollection = dataSet.Tables[this.tableName].Rows;
 
                         foreach (DataRow row in rowCollection)
                         {
                             // Update the location and name in the product object
-                            product.setLocation(row["Locatie"].ToString());
-                            product.setName(row["Omschrijving1"].ToString());
-                            product.setEAN(row["extArtikelcode"].ToString());
+                            product.setLocation(row[this.columnLocation].ToString());
+                            product.setName(row[this.columnDescription].ToString());
+                            product.setEAN(row[this.columnEan].ToString());
                         }
                     }
 

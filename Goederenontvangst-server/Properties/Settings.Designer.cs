@@ -34,5 +34,77 @@ namespace Goederenontvangst_server.Properties {
                 this["DBPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("unset")]
+        public string DBName {
+            get {
+                return ((string)(this["DBName"]));
+            }
+            set {
+                this["DBName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("unset")]
+        public string ColumnSku {
+            get {
+                return ((string)(this["ColumnSku"]));
+            }
+            set {
+                this["ColumnSku"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("unset")]
+        public string ColumnLocation {
+            get {
+                return ((string)(this["ColumnLocation"]));
+            }
+            set {
+                this["ColumnLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("unset")]
+        public string ColumnDescription {
+            get {
+                return ((string)(this["ColumnDescription"]));
+            }
+            set {
+                this["ColumnDescription"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("unset")]
+        public string ColumnEan {
+            get {
+                return ((string)(this["ColumnEan"]));
+            }
+            set {
+                this["ColumnEan"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("unset")]
+        public string TableName {
+            get {
+                return ((string)(this["TableName"]));
+            }
+            set {
+                this["TableName"] = value;
+            }
+        }
     }
 }

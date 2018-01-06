@@ -39,7 +39,7 @@ namespace Goederenontvangst_server
             // ipLabel
             // 
             this.ipLabel.AutoSize = true;
-            this.ipLabel.Location = new System.Drawing.Point(12, 9);
+            this.ipLabel.Location = new System.Drawing.Point(12, 12);
             this.ipLabel.Name = "ipLabel";
             this.ipLabel.Size = new System.Drawing.Size(61, 13);
             this.ipLabel.TabIndex = 0;
@@ -48,7 +48,7 @@ namespace Goederenontvangst_server
             // portLabel
             // 
             this.portLabel.AutoSize = true;
-            this.portLabel.Location = new System.Drawing.Point(12, 31);
+            this.portLabel.Location = new System.Drawing.Point(11, 34);
             this.portLabel.Name = "portLabel";
             this.portLabel.Size = new System.Drawing.Size(62, 13);
             this.portLabel.TabIndex = 1;

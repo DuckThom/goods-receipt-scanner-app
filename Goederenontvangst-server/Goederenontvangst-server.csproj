@@ -10,8 +10,8 @@
     <RootNamespace>Goederenontvangst_server</RootNamespace>
     <AssemblyName>Goederenontvangst-server</AssemblyName>
     <StartupObject>Goederenontvangst_server.Program</StartupObject>
-    <ManifestCertificateThumbprint>260CCAEEAA942F1E96A900D8477CE12F55CDBAE1</ManifestCertificateThumbprint>
-    <ManifestKeyFile>Goederenontvangst-server_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestCertificateThumbprint>083CB5DD28D4AF397A4FD6BA50A5D3EF7CD053D8</ManifestCertificateThumbprint>
+    <ManifestKeyFile>Goederenontvangst-server_1_TemporaryKey.pfx</ManifestKeyFile>
     <GenerateManifests>true</GenerateManifests>
     <SignManifests>true</SignManifests>
     <IsWebBootstrapper>false</IsWebBootstrapper>
